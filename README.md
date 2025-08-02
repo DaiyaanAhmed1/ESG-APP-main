@@ -1,153 +1,87 @@
-# ESG-APP
+# ESG-APP-main
 
-A comprehensive Environmental, Social, and Governance (ESG) management application built with Angular. This application provides tools for tracking sustainability metrics, compliance management, stakeholder engagement, and ESG reporting.
-
-**Last Updated**: $(Get-Date -Format "yyyy-MM-dd HH:mm:ss")
+A comprehensive ESG (Environmental, Social, and Governance) application built with Angular, featuring a complete translation system and modern UI/UX design.
 
 ## 🌟 Features
 
-- **Dashboard Analytics**: Real-time ESG metrics and KPIs
-- **Environmental Tracking**: Carbon footprint, energy consumption, waste management
-- **Social Impact**: Stakeholder engagement, community initiatives, diversity metrics
-- **Governance**: Compliance tracking, risk management, policy management
-- **Reporting**: Automated ESG reports and analytics
-- **IoT Integration**: Smart sensor data integration
-- **Multi-language Support**: Internationalization support
-- **Role-based Access**: Different user roles and permissions
+- **Complete Translation System**: English and Arabic support with real-time language switching
+- **LTR Layout**: Consistent Left-to-Right layout with RTL text support for Arabic
+- **Modern UI/UX**: Glassmorphism design, gradient backgrounds, and responsive layout
+- **Multiple Roles**: Marketing Head, Social Manager, and other ESG roles
+- **Dashboard Components**: Analytics, reports, team management, and more
 
 ## 🚀 Live Demo
 
-Visit the application at: [https://nitu-das305.github.io/ESG-APP](https://nitu-das305.github.io/ESG-APP)
-
-## 📋 Prerequisites
-
-- Node.js (version 18 or higher)
-- npm (comes with Node.js)
-- Angular CLI
+**GitHub Pages**: https://daiyaanahmed1.github.io/ESG-APP-main/
 
 ## 🛠️ Installation
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/nitu-das305/ESG-APP.git
-   cd ESG-APP
-   ```
-
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
-
-3. **Start the development server**
-   ```bash
-   npm start
-   ```
-
-4. **Open your browser**
-   Navigate to `http://localhost:4200`
-
-## 🏗️ Build
-
-### Development Build
 ```bash
+# Clone the repository
+git clone https://github.com/DaiyaanAhmed1/ESG-APP-main.git
+
+# Navigate to the project directory
+cd ESG-APP-main
+
+# Install dependencies
+npm install
+
+# Start the development server
+npm start
+```
+
+## 📦 Build
+
+```bash
+# Build for production
 npm run build
+
+# Build for development
+npm run build --configuration=development
 ```
 
-### Production Build
-```bash
-npm run build --configuration production
-```
+## 🌐 Deployment
 
-## 🚀 Deployment
+This application is automatically deployed to GitHub Pages when changes are pushed to the `master` branch.
 
-### GitHub Pages Deployment
+### Manual Deployment
 
-This project is configured for automatic deployment to GitHub Pages.
+1. Build the application: `npm run build`
+2. The built files will be in `dist/esg-app/browser/`
+3. Deploy to your preferred hosting service
 
-1. **Build the project**
-   ```bash
-   npm run build
-   ```
+## 🎯 Key Components
 
-2. **Deploy to GitHub Pages**
-   ```bash
-   npm run deploy
-   ```
-
-The application will be available at: https://nitu-das305.github.io/ESG-APP
-
-### Manual Deployment Steps
-
-1. Ensure you have the `gh-pages` package installed:
-   ```bash
-   npm install --save-dev gh-pages
-   ```
-
-2. Build the project:
-   ```bash
-   npm run build
-   ```
-
-3. Deploy using the preconfigured script:
-   ```bash
-   npm run deploy
-   ```
+- **Global Translation Service**: Centralized translation management
+- **Language Toggle**: Real-time language switching
+- **Responsive Design**: Works on all device sizes
+- **Modern Styling**: CSS Grid, Flexbox, and modern design patterns
 
 ## 📁 Project Structure
 
 ```
 src/
 ├── app/
-│   ├── dashboard/           # Main dashboard component
-│   ├── environmental/       # Environmental tracking
-│   ├── social/             # Social impact features
-│   ├── governance/         # Governance management
-│   ├── reporting/          # Reporting and analytics
-│   ├── auth/               # Authentication
-│   └── shared/             # Shared components
-├── assets/                 # Static assets
+│   ├── components/          # Reusable UI components
+│   ├── services/           # Application services
+│   ├── marketing-head/     # Marketing Head role components
+│   ├── social-dashboard/   # Social Manager components
+│   └── ...                 # Other role components
+├── assets/
+│   └── i18n/              # Translation files
 └── styles.scss            # Global styles
 ```
 
-## 🛠️ Development
+## 🔧 Configuration
 
-### Available Scripts
-
-- `npm start` - Start development server
-- `npm run build` - Build the project
-- `npm run test` - Run unit tests
-- `npm run lint` - Run linting
-- `npm run deploy` - Deploy to GitHub Pages.
-
-### Code Style
-
-This project uses:
-- TypeScript for type safety
-- Angular CLI for development
-- ESLint for code linting
-- Prettier for code formatting
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+- **Angular**: Latest version with SSR support
+- **Translation**: Embedded translation system (no HTTP requests)
+- **Styling**: SCSS with modern CSS features
+- **Build**: Optimized for production deployment
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 📞 Support
-
-For support and questions, please open an issue in the GitHub repository.
-
-## 🔗 Links
-
-- [GitHub Repository](https://github.com/nitu-das305/ESG-APP)
-- [Live Demo](https://nitu-das305.github.io/ESG-APP)
-- [Issues](https://github.com/nitu-das305/ESG-APP/issues)
+This project is part of the ESG application suite.
 
 ---
 
