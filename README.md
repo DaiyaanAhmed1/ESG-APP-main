@@ -14,6 +14,8 @@ A comprehensive ESG (Environmental, Social, and Governance) application built wi
 
 **GitHub Pages**: https://daiyaanahmed1.github.io/ESG-APP-main/
 
+> **Note**: If you see a 404 error, please check the GitHub Actions tab to ensure deployment is complete.
+
 ## 🛠️ Installation
 
 ```bash
