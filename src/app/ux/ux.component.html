@@ -1,0 +1,237 @@
+<div class="edash-root" [class.dark-mode]="darkMode" [class.sidebar-collapsed]="sidebarCollapsed">
+  <!-- Sidebar -->
+  <aside class="edash-sidenav" [class.collapsed]="sidebarCollapsed" [class.dark-mode]="darkMode">
+    <div class="edash-sidenav-header">
+      <img src="https://lms-frontend-resources.s3.ap-south-1.amazonaws.com/marlnLogo.jpeg" alt="Logo" class="edash-logo" />
+      <span *ngIf="!sidebarCollapsed" class="edash-title">UX</span>
+    </div>
+    <nav class="edash-nav">
+      <a routerLink="/dashboard" class="edash-nav-link" data-title="Dashboard">
+        <span class="edash-nav-icon">📊</span>
+        <span *ngIf="!sidebarCollapsed">{{ getTranslatedText('NAVIGATION.DASHBOARD') }}</span>
+      </a>
+      <a routerLink="/environmental" class="edash-nav-link" data-title="Environmental">
+        <span class="edash-nav-icon">🌱</span>
+        <span *ngIf="!sidebarCollapsed">Environmental</span>
+      </a>
+      <a routerLink="/social" class="edash-nav-link" data-title="Social">
+        <span class="edash-nav-icon">🤝</span>
+        <span *ngIf="!sidebarCollapsed">Social</span>
+      </a>
+      <a routerLink="/governance" class="edash-nav-link" data-title="Governance">
+        <span class="edash-nav-icon">🏛️</span>
+        <span *ngIf="!sidebarCollapsed">Governance</span>
+      </a>
+      <a routerLink="/reporting" class="edash-nav-link" data-title="Reporting">
+        <span class="edash-nav-icon">📈</span>
+        <span *ngIf="!sidebarCollapsed">{{ getTranslatedText('NAVIGATION.REPORT_ANALYTICS') }}</span>
+      </a>
+      <a routerLink="/integrations" class="edash-nav-link" data-title="Integrations">
+        <span class="edash-nav-icon">🔗</span>
+        <span *ngIf="!sidebarCollapsed">{{ getTranslatedText('NAVIGATION.RESOURCE_MANAGEMENT') }}</span>
+      </a>
+      <a routerLink="/compliance" class="edash-nav-link" data-title="Compliance">
+        <span class="edash-nav-icon">⚖️</span>
+        <span *ngIf="!sidebarCollapsed">Compliance</span>
+      </a>
+      <a routerLink="/security" class="edash-nav-link" data-title="Security">
+        <span class="edash-nav-icon">🔒</span>
+        <span *ngIf="!sidebarCollapsed">{{ getTranslatedText('NAVIGATION.SECURITY') }}</span>
+      </a>
+      <a routerLink="/ux" class="edash-nav-link active" data-title="UX">
+        <span class="edash-nav-icon">👥</span>
+        <span *ngIf="!sidebarCollapsed">{{ getTranslatedText('NAVIGATION.UX') }}</span>
+      </a>
+      <div class="edash-nav-actions">
+        <button class="edash-logout" (click)="logout()" aria-label="Logout" data-title="Logout">
+          <span class="icon">🚪</span>
+          <span *ngIf="!sidebarCollapsed">{{ getTranslatedText('NAVIGATION.LOGOUT') }}</span>
+        </button>
+        <button class="edash-sidenav-toggle" (click)="toggleSidebar()" aria-label="Toggle sidenav" data-title="Collapse">
+          <span class="icon">⬅️</span>
+          <span *ngIf="!sidebarCollapsed">{{ getTranslatedText('NAVIGATION.COLLAPSE') }}</span>
+        </button>
+        <button class="edash-dark-toggle" (click)="toggleDarkMode()" aria-label="Toggle dark mode" data-title="Light Mode">
+          <span class="icon">☀️</span>
+          <span *ngIf="!sidebarCollapsed">{{ getTranslatedText('NAVIGATION.LIGHT_MODE') }}</span>
+        </button>
+        <app-unified-language-toggle></app-unified-language-toggle>
+      </div>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="edash-main" [class.sidebar-collapsed]="sidebarCollapsed">
+    <div class="edash-content">
+      <!-- Header -->
+      <div class="ux-header">
+        <div class="header-content">
+          <h1>{{ getTranslatedText('UX.TITLE') }}</h1>
+          <p>{{ getTranslatedText('UX.SUBTITLE') }}</p>
+        </div>
+        <div class="header-actions">
+          <button class="action-btn refresh-btn" (click)="refreshUxData()">
+            <span class="icon">🔄</span>
+            {{ getTranslatedText('UX.REFRESH') }}
+          </button>
+          <button class="action-btn export-btn" (click)="exportUxReport()">
+            <span class="icon">📊</span>
+            {{ getTranslatedText('UX.EXPORT') }}
+          </button>
+        </div>
+      </div>
+
+      <!-- UX Overview -->
+      <div class="ux-overview">
+        <h2>{{ getTranslatedText('UX.OVERVIEW') }}</h2>
+        <div class="metrics-grid">
+          <div *ngFor="let metric of uxMetrics" class="metric-card" [class]="'status-' + metric.status">
+            <div class="metric-icon">{{ metric.icon }}</div>
+            <div class="metric-content">
+              <h3>{{ getTranslatedText('UX.' + metric.id.toUpperCase()) }}</h3>
+              <div class="metric-value">{{ metric.value }}</div>
+              <p class="metric-description">{{ metric.description }}</p>
+              <div class="metric-status" [style.background-color]="getStatusColor(metric.status)">
+                {{ getTranslatedText('UX.' + metric.status.toUpperCase()) }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- UX Analytics -->
+      <div class="ux-section">
+        <div class="section-header">
+          <h2>{{ getTranslatedText('UX.ANALYTICS') }}</h2>
+          <button class="view-all-btn">{{ getTranslatedText('UX.VIEW_DETAILS') }}</button>
+        </div>
+        <div class="analytics-grid">
+          <div *ngFor="let analytic of uxAnalytics" class="analytic-card">
+            <div class="analytic-header">
+              <h3>{{ analytic.metric }}</h3>
+              <div class="analytic-trend" [class]="'trend-' + analytic.trend">
+                <span class="trend-icon">{{ analytic.trend === 'up' ? '📈' : '📉' }}</span>
+                <span class="trend-value">{{ analytic.change }}</span>
+              </div>
+            </div>
+            <div class="analytic-value">{{ analytic.value }}</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- User Feedback -->
+      <div class="ux-section">
+        <div class="section-header">
+          <h2>{{ getTranslatedText('UX.FEEDBACK') }}</h2>
+          <button class="view-all-btn">{{ getTranslatedText('UX.VIEW_DETAILS') }}</button>
+        </div>
+        <div class="feedback-list">
+          <div *ngFor="let feedback of userFeedback" class="feedback-card">
+            <div class="feedback-header">
+              <div class="feedback-category" [style.background-color]="getPriorityColor(feedback.priority)">
+                {{ feedback.category | titlecase }}
+              </div>
+              <div class="feedback-status" [style.background-color]="getStatusColor(feedback.status)">
+                {{ getTranslatedText('UX.' + feedback.status.toUpperCase()) }}
+              </div>
+            </div>
+            <h3 class="feedback-title">{{ feedback.title }}</h3>
+            <p class="feedback-description">{{ feedback.description }}</p>
+            <div class="feedback-meta">
+              <span class="feedback-date">{{ getTranslatedText('UX.CREATED_DATE') }}: {{ feedback.createdAt | date:'short' }}</span>
+              <span *ngIf="feedback.assignedTo" class="feedback-assigned">{{ getTranslatedText('UX.ASSIGNED_TO') }}: {{ feedback.assignedTo }}</span>
+            </div>
+            <button class="feedback-details-btn" (click)="viewFeedbackDetails(feedback)">
+              {{ getTranslatedText('UX.VIEW_DETAILS') }}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Design System -->
+      <div class="ux-section">
+        <div class="section-header">
+          <h2>{{ getTranslatedText('UX.DESIGN') }}</h2>
+          <button class="configure-btn">{{ getTranslatedText('UX.CONFIGURE') }}</button>
+        </div>
+        <div class="design-grid">
+          <div *ngFor="let component of designSystem" class="design-card">
+            <div class="design-header">
+              <h3>{{ component.component }}</h3>
+              <div class="design-status" [style.background-color]="getStatusColor(component.status.toLowerCase())">
+                {{ component.status }}
+              </div>
+            </div>
+            <div class="design-meta">
+              <span>{{ getTranslatedText('UX.LAST_UPDATED') }}: {{ component.lastUpdated }}</span>
+            </div>
+            <button class="design-update-btn" (click)="updateDesignComponent(component)">
+              {{ getTranslatedText('UX.UPDATE') }}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- User Testing -->
+      <div class="ux-section">
+        <div class="section-header">
+          <h2>{{ getTranslatedText('UX.TESTING') }}</h2>
+          <button class="view-all-btn">{{ getTranslatedText('UX.VIEW_DETAILS') }}</button>
+        </div>
+        <div class="testing-grid">
+          <div *ngFor="let test of userTesting" class="testing-card">
+            <div class="testing-header">
+              <h3>{{ test.test }}</h3>
+              <div class="testing-completion">{{ test.completion }}</div>
+            </div>
+            <div class="testing-progress">
+              <div class="progress-bar">
+                <div class="progress-fill" [style.width]="test.completion"></div>
+              </div>
+            </div>
+            <div class="testing-meta">
+              <span>{{ getTranslatedText('UX.NEXT_REVIEW') }}: {{ test.dueDate }}</span>
+              <span>Participants: {{ test.participants }}</span>
+            </div>
+            <button class="testing-details-btn" (click)="viewTestingProgress(test)">
+              {{ getTranslatedText('UX.VIEW_DETAILS') }}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="ux-section">
+        <div class="section-header">
+          <h2>{{ getTranslatedText('UX.ACTIONS') }}</h2>
+        </div>
+        <div class="quick-actions-grid">
+          <div class="action-card">
+            <div class="action-icon">📊</div>
+            <h3>{{ getTranslatedText('UX.ANALYTICS') }}</h3>
+            <p>{{ getTranslatedText('UX.DESCRIPTION') }}</p>
+            <button class="action-btn">{{ getTranslatedText('UX.VIEW_DETAILS') }}</button>
+          </div>
+          <div class="action-card">
+            <div class="action-icon">🧪</div>
+            <h3>{{ getTranslatedText('UX.TESTING') }}</h3>
+            <p>{{ getTranslatedText('UX.DESCRIPTION') }}</p>
+            <button class="action-btn">{{ getTranslatedText('UX.CONFIGURE') }}</button>
+          </div>
+          <div class="action-card">
+            <div class="action-icon">💬</div>
+            <h3>{{ getTranslatedText('UX.FEEDBACK') }}</h3>
+            <p>{{ getTranslatedText('UX.DESCRIPTION') }}</p>
+            <button class="action-btn">{{ getTranslatedText('UX.VIEW_DETAILS') }}</button>
+          </div>
+          <div class="action-card">
+            <div class="action-icon">🎨</div>
+            <h3>{{ getTranslatedText('UX.DESIGN') }}</h3>
+            <p>{{ getTranslatedText('UX.DESCRIPTION') }}</p>
+            <button class="action-btn">{{ getTranslatedText('UX.VIEW_DETAILS') }}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div> 

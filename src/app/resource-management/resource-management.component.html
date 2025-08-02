@@ -1,0 +1,241 @@
+<div class="edash-root" [class.dark-mode]="darkMode">
+  <!-- Sidenav -->
+  <aside class="edash-sidenav" [class.collapsed]="sidebarCollapsed" [class.dark-mode]="darkMode">
+    <div class="edash-sidenav-header">
+      <img src="https://lms-frontend-resources.s3.ap-south-1.amazonaws.com/marlnLogo.jpeg" alt="Logo" class="edash-logo" />
+      <span *ngIf="!sidebarCollapsed" class="edash-title" [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ getTranslatedText('NAVIGATION.MARKETING_HEAD') }}</span>
+    </div>
+    <nav class="edash-nav">
+      <a routerLink="/marketing-head" class="edash-nav-link" data-title="Dashboard">
+        <span class="edash-nav-icon">📊</span>
+        <span *ngIf="!sidebarCollapsed">{{ getTranslatedText('NAVIGATION.DASHBOARD') }}</span>
+      </a>
+      <a routerLink="/marketing-team" class="edash-nav-link" data-title="Team Management">
+        <span class="edash-nav-icon">👥</span>
+        <span *ngIf="!sidebarCollapsed">{{ getTranslatedText('NAVIGATION.TEAM_MANAGEMENT') }}</span>
+      </a>
+      <a routerLink="/leads" class="edash-nav-link" data-title="Leads">
+        <span class="edash-nav-icon">🎯</span>
+        <span *ngIf="!sidebarCollapsed">{{ getTranslatedText('NAVIGATION.LEADS') }}</span>
+      </a>
+     
+      <a routerLink="/resource-management" class="edash-nav-link active" data-title="Resource Management">
+        <span class="edash-nav-icon">📦</span>
+        <span *ngIf="!sidebarCollapsed">{{ getTranslatedText('NAVIGATION.RESOURCE_MANAGEMENT') }}</span>
+      </a>
+      <a routerLink="/report-analytics" class="edash-nav-link" data-title="Report & Analytics">
+        <span class="edash-nav-icon">📈</span>
+        <span *ngIf="!sidebarCollapsed">{{ getTranslatedText('NAVIGATION.REPORT_ANALYTICS') }}</span>
+      </a>
+      
+      <a routerLink="/training" class="edash-nav-link" data-title="Training & Develop">
+        <span class="edash-nav-icon">🎓</span>
+        <span *ngIf="!sidebarCollapsed">{{ getTranslatedText('NAVIGATION.TRAINING_DEVELOP') }}</span>
+      </a>
+      
+      <a routerLink="/help-support" class="edash-nav-link" data-title="Help & Support">
+        <span class="edash-nav-icon">🆘</span>
+        <span *ngIf="!sidebarCollapsed">{{ getTranslatedText('NAVIGATION.HELP_SUPPORT') }}</span>
+      </a>
+      <div class="edash-nav-actions">
+        <app-global-language-toggle></app-global-language-toggle>
+        <button class="edash-logout" (click)="logout()" aria-label="Logout" data-title="Logout">
+          <span class="icon">🚪</span>
+          <span *ngIf="!sidebarCollapsed">{{ getTranslatedText('NAVIGATION.LOGOUT') }}</span>
+        </button>
+        <button class="edash-sidenav-toggle" (click)="sidebarCollapsed=!sidebarCollapsed" aria-label="Toggle sidenav" data-title="Collapse">
+          <span class="icon">⬅️</span>
+          <span *ngIf="!sidebarCollapsed">{{ getTranslatedText('NAVIGATION.COLLAPSE') }}</span>
+        </button>
+        <button class="edash-dark-toggle" (click)="toggleDarkMode()" aria-label="Toggle dark mode" data-title="Light Mode">
+          <span class="icon">☀️</span>
+          <span *ngIf="!sidebarCollapsed">{{ getTranslatedText('NAVIGATION.LIGHT_MODE') }}</span>
+        </button>
+      </div>
+    </nav>
+  </aside>
+  
+  <!-- Main Content -->
+  <main class="edash-main" [class.sidebar-collapsed]="sidebarCollapsed" [class.dark-mode]="darkMode">
+    <div class="dashboard-header">
+      <div>
+        <h1 class="header-title" [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ getTranslatedText('RESOURCE_MANAGEMENT.TITLE') }}</h1>
+        <p class="header-subtitle" [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ getTranslatedText('RESOURCE_MANAGEMENT.SUBTITLE') }}</p>
+      </div>
+    </div>
+    
+    <div class="dashboard-content">
+      <!-- Resource Overview -->
+      <div class="resource-overview">
+        <div class="overview-card">
+          <div class="overview-title" [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ getTranslatedText('RESOURCE_MANAGEMENT.TOTAL_RES') }}</div>
+          <div class="overview-value">{{ totalResources }}</div>
+          <div class="overview-change positive">
+            <span>↗</span>
+            <span [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">+12% {{ getTranslatedText('RESOURCE_MANAGEMENT.PERCENT_FROM_LAST_MONTH') }}</span>
+          </div>
+        </div>
+        
+        <div class="overview-card">
+          <div class="overview-title" [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ getTranslatedText('RESOURCE_MANAGEMENT.AVAILABLE') }}</div>
+          <div class="overview-value">{{ availableResources }}</div>
+          <div class="overview-change positive">
+            <span>↗</span>
+            <span [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">+8% {{ getTranslatedText('RESOURCE_MANAGEMENT.PERCENT_FROM_LAST_MONTH') }}</span>
+          </div>
+        </div>
+        
+        <div class="overview-card">
+          <div class="overview-title" [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ getTranslatedText('RESOURCE_MANAGEMENT.UTILIZATIO') }}</div>
+          <div class="overview-value">{{ utilizationRate }}%</div>
+          <div class="overview-change neutral">
+            <span>→</span>
+            <span [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ getTranslatedText('RESOURCE_MANAGEMENT.STABLE') }}</span>
+          </div>
+        </div>
+        
+        <div class="overview-card">
+          <div class="overview-title" [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ getTranslatedText('RESOURCE_MANAGEMENT.TOTAL_COST') }}</div>
+          <div class="overview-value">${{ totalCost.toLocaleString() }}</div>
+          <div class="overview-change negative">
+            <span>↘</span>
+            <span [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">-5% {{ getTranslatedText('RESOURCE_MANAGEMENT.PERCENT_FROM_LAST_MONTH') }}</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Resource Filters -->
+      <div class="resource-filters">
+        <div class="filters-header">
+          <h3 class="filters-title" [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ getTranslatedText('RESOURCE_MANAGEMENT.FILTER_BY_TYPE') }}</h3>
+          <div class="filters-actions">
+            <button class="filter-btn" [class.active]="selectedType === ''" (click)="filterByType('')" [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ getTranslatedText('RESOURCE_MANAGEMENT.ALL_TYPES') }}</button>
+            <button class="filter-btn" [class.active]="selectedType === 'human'" (click)="filterByType('human')" [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ getTranslatedText('RESOURCE_MANAGEMENT.HUMAN') }}</button>
+            <button class="filter-btn" [class.active]="selectedType === 'equipment'" (click)="filterByType('equipment')" [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ getTranslatedText('RESOURCE_MANAGEMENT.EQUIPMENT') }}</button>
+            <button class="filter-btn" [class.active]="selectedType === 'budget'" (click)="filterByType('budget')" [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ getTranslatedText('RESOURCE_MANAGEMENT.BUDGET') }}</button>
+            <button class="filter-btn" [class.active]="selectedType === 'technology'" (click)="filterByType('technology')" [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ getTranslatedText('RESOURCE_MANAGEMENT.TECHNOLOGY') }}</button>
+          </div>
+        </div>
+        
+        <div class="filters-row">
+          <div class="filter-group">
+            <label class="filter-label" [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ getTranslatedText('RESOURCE_MANAGEMENT.SEARCH_RESOURCES') }}</label>
+            <input type="text" class="filter-input" [placeholder]="getTranslatedText('RESOURCE_MANAGEMENT.SEARCH_RESOURCE')" [(ngModel)]="searchTerm" (input)="filterResources()">
+          </div>
+          
+          <div class="filter-group">
+            <label class="filter-label" [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ getTranslatedText('RESOURCE_MANAGEMENT.FILTER_BY_DEPARTMENT') }}</label>
+            <select class="filter-input" [(ngModel)]="selectedDepartment" (change)="filterResources()">
+              <option value="">{{ getTranslatedText('RESOURCE_MANAGEMENT.ALL_DEPARTMEN') }}</option>
+              <option value="Marketing">Marketing</option>
+              <option value="Sales">Sales</option>
+              <option value="IT">IT</option>
+              <option value="HR">HR</option>
+            </select>
+          </div>
+          
+          <div class="filter-group">
+            <label class="filter-label" [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ getTranslatedText('RESOURCE_MANAGEMENT.FILTER_BY_STATUS') }}</label>
+            <select class="filter-input" [(ngModel)]="selectedStatus" (change)="filterResources()">
+              <option value="">{{ getTranslatedText('RESOURCE_MANAGEMENT.ALL_STATUSES') }}</option>
+              <option value="available">{{ getTranslatedText('RESOURCE_MANAGEMENT.AVAILABLE_STATUS') }}</option>
+              <option value="allocated">{{ getTranslatedText('RESOURCE_MANAGEMENT.ALLOCATED_STATUS') }}</option>
+              <option value="maintenance">{{ getTranslatedText('RESOURCE_MANAGEMENT.MAINTENANCE_STATUS') }}</option>
+              <option value="depleted">{{ getTranslatedText('RESOURCE_MANAGEMENT.DEPLETED_STATUS') }}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Resources Table -->
+      <div class="resource-table">
+        <div class="table-header">
+          <h3 class="table-title" [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ getTranslatedText('RESOURCE_MANAGEMENT.OVERVIEW') }}</h3>
+          <div class="table-actions">
+            <button class="action-btn btn-secondary" (click)="importResources()" [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">
+              <span>📥</span>
+              <span>{{ getTranslatedText('RESOURCE_MANAGEMENT.IMPORT_RESOURCES') }}</span>
+            </button>
+            <button class="action-btn btn-secondary" (click)="exportResources()" [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">
+              <span>📤</span>
+              <span>{{ getTranslatedText('RESOURCE_MANAGEMENT.EXPORT_RESOURCES') }}</span>
+            </button>
+            <button class="action-btn btn-primary" (click)="addResource()" [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">
+              <span>➕</span>
+              <span>{{ getTranslatedText('RESOURCE_MANAGEMENT.ADD_RESOURCE') }}</span>
+            </button>
+          </div>
+        </div>
+        
+        <table class="table">
+          <thead>
+            <tr>
+              <th [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ getTranslatedText('RESOURCE_MANAGEMENT.NAME') }}</th>
+              <th [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ getTranslatedText('RESOURCE_MANAGEMENT.TYPE') }}</th>
+              <th [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ getTranslatedText('RESOURCE_MANAGEMENT.DEPARTMENT') }}</th>
+              <th [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ getTranslatedText('RESOURCE_MANAGEMENT.STATUS') }}</th>
+              <th [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ getTranslatedText('RESOURCE_MANAGEMENT.COST') }}</th>
+              <th [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ getTranslatedText('RESOURCE_MANAGEMENT.UTILIZATION') }}</th>
+              <th [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ getTranslatedText('RESOURCE_MANAGEMENT.LAST_UPDATED') }}</th>
+              <th [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ getTranslatedText('RESOURCE_MANAGEMENT.ACTIONS') }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let resource of paginatedResources">
+              <td>
+                <div>
+                  <div style="font-weight: 500;">{{ resource.name }}</div>
+                  <div style="font-size: 0.75rem; color: #64748b;">{{ resource.description || getTranslatedText('RESOURCE_MANAGEMENT.NO_DESCRIPTION') }}</div>
+                </div>
+              </td>
+              <td>
+                <span class="status-badge" [class]="'status-' + resource.type" [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">
+                  {{ getTypeTranslation(resource.type) }}
+                </span>
+              </td>
+              <td [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ getDepartmentTranslation(resource.department) }}</td>
+              <td>
+                <span class="status-badge" [class]="'status-' + resource.status" [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">
+                  {{ getStatusTranslation(resource.status) }}
+                </span>
+              </td>
+              <td>${{ resource.cost.toLocaleString() }}</td>
+              <td>
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                  <div class="utilization-bar">
+                    <div class="utilization-fill" 
+                         [class]="resource.utilization < 30 ? 'utilization-low' : resource.utilization < 70 ? 'utilization-medium' : 'utilization-high'"
+                         [style.width.%]="resource.utilization"></div>
+                  </div>
+                  <span style="font-size: 0.75rem;">{{ resource.utilization }}%</span>
+                </div>
+              </td>
+              <td>{{ resource.lastUpdated }}</td>
+              <td>
+                <div class="resource-actions">
+                  <span class="action-icon" (click)="viewResource(resource)" [title]="getTranslatedText('RESOURCE_MANAGEMENT.VIEW')" [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">👁️</span>
+                  <span class="action-icon" (click)="editResource(resource)" [title]="getTranslatedText('RESOURCE_MANAGEMENT.EDIT')" [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">✏️</span>
+                  <span class="action-icon" (click)="allocateResource(resource)" [title]="getTranslatedText('RESOURCE_MANAGEMENT.ALLOCATE')" [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">📋</span>
+                  <span class="action-icon" (click)="deleteResource(resource)" [title]="getTranslatedText('RESOURCE_MANAGEMENT.DELETE')" [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">🗑️</span>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        
+        <div class="pagination">
+          <div class="pagination-info" [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">
+            {{ getTranslatedText('RESOURCE_MANAGEMENT.SHOWING') }} {{ (currentPage - 1) * pageSize + 1 }} {{ getTranslatedText('RESOURCE_MANAGEMENT.OF') }} {{ Math.min(currentPage * pageSize, filteredResources.length) }} {{ getTranslatedText('RESOURCE_MANAGEMENT.OF') }} {{ filteredResources.length }} {{ getTranslatedText('RESOURCE_MANAGEMENT.RESULTS') }}
+          </div>
+          <div class="pagination-controls">
+            <button class="page-btn" [disabled]="currentPage === 1" (click)="previousPage()" [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ getTranslatedText('RESOURCE_MANAGEMENT.PREVIOUS') }}</button>
+            <button class="page-btn" [class.active]="currentPage === 1" (click)="goToPage(1)">1</button>
+            <button class="page-btn" [class.active]="currentPage === 2" (click)="goToPage(2)">2</button>
+            <button class="page-btn" [class.active]="currentPage === 3" (click)="goToPage(3)">3</button>
+            <button class="page-btn" [disabled]="currentPage === totalPages" (click)="nextPage()" [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ getTranslatedText('RESOURCE_MANAGEMENT.NEXT') }}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div> 

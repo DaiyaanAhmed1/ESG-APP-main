@@ -1,0 +1,262 @@
+<div class="edash-root" [class.dark-mode]="darkMode" [class.sidebar-collapsed]="sidebarCollapsed">
+  <!-- Sidebar -->
+  <aside class="edash-sidenav" [class.collapsed]="sidebarCollapsed" [class.dark-mode]="darkMode">
+    <div class="edash-sidenav-header">
+      <img src="https://lms-frontend-resources.s3.ap-south-1.amazonaws.com/marlnLogo.jpeg" alt="Logo" class="edash-logo" />
+      <span *ngIf="!sidebarCollapsed" class="edash-title" [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ getTranslatedText('NAVIGATION.MARKETING_HEAD') }}</span>
+    </div>
+    <nav class="edash-nav">
+      <a routerLink="/marketing-head" class="edash-nav-link" data-title="Dashboard">
+        <span class="edash-nav-icon">📊</span>
+        <span *ngIf="!sidebarCollapsed">{{ getTranslatedText('NAVIGATION.DASHBOARD') }}</span>
+      </a>
+      <a routerLink="/marketing-team" class="edash-nav-link" data-title="Team Management">
+        <span class="edash-nav-icon">👥</span>
+        <span *ngIf="!sidebarCollapsed">{{ getTranslatedText('NAVIGATION.TEAM_MANAGEMENT') }}</span>
+      </a>
+      <a routerLink="/leads" class="edash-nav-link" data-title="Leads">
+        <span class="edash-nav-icon">🎯</span>
+        <span *ngIf="!sidebarCollapsed">{{ getTranslatedText('NAVIGATION.LEADS') }}</span>
+      </a>
+      <a routerLink="/resource-management" class="edash-nav-link" data-title="Resource Management">
+        <span class="edash-nav-icon">📦</span>
+        <span *ngIf="!sidebarCollapsed">{{ getTranslatedText('NAVIGATION.RESOURCE_MANAGEMENT') }}</span>
+      </a>
+      <a routerLink="/report-analytics" class="edash-nav-link" data-title="Report & Analytics">
+        <span class="edash-nav-icon">📈</span>
+        <span *ngIf="!sidebarCollapsed">{{ getTranslatedText('NAVIGATION.REPORT_ANALYTICS') }}</span>
+      </a>
+      <a routerLink="/training-development" class="edash-nav-link" data-title="Training & Develop">
+        <span class="edash-nav-icon">🎓</span>
+        <span *ngIf="!sidebarCollapsed">{{ getTranslatedText('NAVIGATION.TRAINING_DEVELOP') }}</span>
+      </a>
+      <a routerLink="/help-support" class="edash-nav-link active" data-title="Help & Support">
+        <span class="edash-nav-icon">🆘</span>
+        <span *ngIf="!sidebarCollapsed">{{ getTranslatedText('NAVIGATION.HELP_SUPPORT') }}</span>
+      </a>
+      <div class="edash-nav-actions">
+        <button class="edash-logout" (click)="logout()" aria-label="Logout" data-title="Logout">
+          <span class="icon">🚪</span>
+          <span *ngIf="!sidebarCollapsed">{{ getTranslatedText('NAVIGATION.LOGOUT') }}</span>
+        </button>
+        <button class="edash-sidenav-toggle" (click)="sidebarCollapsed=!sidebarCollapsed" aria-label="Toggle sidenav" data-title="Collapse">
+          <span class="icon">⬅️</span>
+          <span *ngIf="!sidebarCollapsed">{{ getTranslatedText('NAVIGATION.COLLAPSE') }}</span>
+        </button>
+        <button class="edash-dark-toggle" (click)="toggleDarkMode()" aria-label="Toggle dark mode" data-title="Light Mode">
+          <span class="icon">☀️</span>
+          <span *ngIf="!sidebarCollapsed">{{ getTranslatedText('NAVIGATION.LIGHT_MODE') }}</span>
+        </button>
+        <app-global-language-toggle></app-global-language-toggle>
+      </div>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="edash-main" [class.sidebar-collapsed]="sidebarCollapsed">
+
+    <div class="edash-content">
+      <!-- Search Section -->
+      <div class="help-search-section">
+        <div class="search-container">
+          <input 
+            type="text" 
+            [(ngModel)]="searchTerm" 
+            (input)="searchContent()"
+            [placeholder]="getTranslatedText('HELP_SUPPORT.SEARCH_PLACEHOLDER')"
+            class="search-input"
+            [class.rtl-text]="isRTL"
+            [class.ltr-text]="!isRTL"
+          >
+          <button class="search-btn">🔍</button>
+        </div>
+        <button class="clear-filters-btn" (click)="clearFilters()" [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ getTranslatedText('HELP_SUPPORT.CLEAR_FILTERS') }}</button>
+      </div>
+
+      <!-- Quick Stats -->
+      <div class="help-stats-grid">
+        <div class="help-stat-card">
+          <div class="stat-icon">📋</div>
+          <div class="stat-content">
+            <h3>{{ tickets.length }}</h3>
+            <p [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ getTranslatedText('HELP_SUPPORT.SUPPORT_TICKETS') }}</p>
+          </div>
+        </div>
+        <div class="help-stat-card">
+          <div class="stat-icon">❓</div>
+          <div class="stat-content">
+            <h3>{{ faqs.length }}</h3>
+            <p [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ getTranslatedText('HELP_SUPPORT.FAQ_ARTICLES') }}</p>
+          </div>
+        </div>
+        <div class="help-stat-card">
+          <div class="stat-icon">📚</div>
+          <div class="stat-content">
+            <h3>{{ knowledgeArticles.length }}</h3>
+            <p [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ getTranslatedText('HELP_SUPPORT.KNOWLEDGE_BASE') }}</p>
+          </div>
+        </div>
+        <div class="help-stat-card">
+          <div class="stat-icon">⚡</div>
+          <div class="stat-content">
+            <h3>{{ openTicketsCount }}</h3>
+            <p [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ getTranslatedText('HELP_SUPPORT.OPEN_ISSUES') }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Support Tickets Section -->
+      <div class="help-section">
+        <div class="section-header">
+          <h2 [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ getTranslatedText('HELP_SUPPORT.SUPPORT_TICKETS') }}</h2>
+          <button class="create-ticket-btn" (click)="createTicket()" [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ getTranslatedText('HELP_SUPPORT.CREATE_TICKET') }}</button>
+        </div>
+
+        <!-- Filters -->
+        <div class="ticket-filters">
+          <select [(ngModel)]="selectedCategory" (change)="filterTickets()" class="filter-select">
+            <option value="" [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ getTranslatedText('HELP_SUPPORT.ALL_CATEGORIES') }}</option>
+            <option value="technical" [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ getTranslatedText('HELP_SUPPORT.TECHNICAL') }}</option>
+            <option value="billing" [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ getTranslatedText('HELP_SUPPORT.BILLING') }}</option>
+            <option value="feature" [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ getTranslatedText('HELP_SUPPORT.FEATURE') }}</option>
+            <option value="bug" [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ getTranslatedText('HELP_SUPPORT.BUG') }}</option>
+            <option value="general" [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ getTranslatedText('HELP_SUPPORT.GENERAL') }}</option>
+          </select>
+          <select [(ngModel)]="selectedPriority" (change)="filterTickets()" class="filter-select">
+            <option value="" [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ getTranslatedText('HELP_SUPPORT.ALL_PRIORITIES') }}</option>
+            <option value="urgent" [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ getTranslatedText('HELP_SUPPORT.URGENT') }}</option>
+            <option value="high" [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ getTranslatedText('HELP_SUPPORT.HIGH') }}</option>
+            <option value="medium" [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ getTranslatedText('HELP_SUPPORT.MEDIUM') }}</option>
+            <option value="low" [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ getTranslatedText('HELP_SUPPORT.LOW') }}</option>
+          </select>
+          <select [(ngModel)]="selectedStatus" (change)="filterTickets()" class="filter-select">
+            <option value="" [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ getTranslatedText('HELP_SUPPORT.ALL_STATUS') }}</option>
+            <option value="open" [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ getTranslatedText('HELP_SUPPORT.OPEN') }}</option>
+            <option value="in-progress" [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ getTranslatedText('HELP_SUPPORT.IN_PROGRESS') }}</option>
+            <option value="resolved" [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ getTranslatedText('HELP_SUPPORT.RESOLVED') }}</option>
+            <option value="closed" [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ getTranslatedText('HELP_SUPPORT.CLOSED') }}</option>
+          </select>
+        </div>
+
+        <!-- Tickets List -->
+        <div class="tickets-list">
+          <div *ngFor="let ticket of filteredTickets" class="ticket-card">
+            <div class="ticket-header">
+              <div class="ticket-category">
+                <span class="category-icon">{{ getCategoryIcon(ticket.category) }}</span>
+                <span class="category-text" [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ getCategoryTranslation(ticket.category) }}</span>
+              </div>
+              <div class="ticket-priority" [style.background-color]="getPriorityColor(ticket.priority)" [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">
+                {{ getPriorityTranslation(ticket.priority) }}
+              </div>
+            </div>
+            <h3 class="ticket-title" [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ ticket.title }}</h3>
+            <p class="ticket-description" [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ ticket.description }}</p>
+            <div class="ticket-meta">
+              <span class="ticket-status" [style.background-color]="getStatusColor(ticket.status)" [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">
+                {{ getStatusTranslation(ticket.status) }}
+              </span>
+              <span class="ticket-date" [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ getTranslatedText('HELP_SUPPORT.CREATED') }} {{ ticket.createdAt | date:'short' }}</span>
+              <span *ngIf="ticket.assignedTo" class="ticket-assigned" [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ getTranslatedText('HELP_SUPPORT.ASSIGNED_TO') }} {{ ticket.assignedTo }}</span>
+            </div>
+            <div class="ticket-actions">
+              <button class="action-btn edit-btn" (click)="updateTicket(ticket)" [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ getTranslatedText('HELP_SUPPORT.EDIT') }}</button>
+              <button class="action-btn delete-btn" (click)="deleteTicket(ticket)" [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ getTranslatedText('HELP_SUPPORT.DELETE') }}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FAQ Section -->
+      <div class="help-section">
+        <div class="section-header">
+          <h2 [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ getTranslatedText('HELP_SUPPORT.FREQUENTLY_ASKED_QUESTIONS') }}</h2>
+        </div>
+        <div class="faq-list">
+          <div *ngFor="let faq of filteredFAQs" class="faq-card">
+            <div class="faq-question">
+              <h3 [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ faq.question }}</h3>
+              <span class="faq-category" [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ faq.category }}</span>
+            </div>
+            <div class="faq-answer">
+              <p [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ faq.answer }}</p>
+            </div>
+            <div class="faq-feedback">
+              <span class="feedback-text" [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ getTranslatedText('HELP_SUPPORT.WAS_THIS_HELPFUL') }}</span>
+              <button class="feedback-btn helpful" (click)="markFAQHelpful(faq)" [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">
+                👍 {{ getTranslatedText('HELP_SUPPORT.HELPFUL') }} ({{ faq.helpful }})
+              </button>
+              <button class="feedback-btn not-helpful" (click)="markFAQNotHelpful(faq)" [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">
+                👎 {{ getTranslatedText('HELP_SUPPORT.NOT_HELPFUL') }} ({{ faq.notHelpful }})
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Knowledge Base Section -->
+      <div class="help-section">
+        <div class="section-header">
+          <h2 [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ getTranslatedText('HELP_SUPPORT.KNOWLEDGE_BASE_TITLE') }}</h2>
+        </div>
+        <div class="knowledge-grid">
+          <div *ngFor="let article of filteredArticles" class="knowledge-card">
+            <div class="article-header">
+              <h3 [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ article.title }}</h3>
+              <span class="article-category" [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ article.category }}</span>
+            </div>
+            <p class="article-excerpt" [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ article.content.substring(0, 150) }}...</p>
+            <div class="article-meta">
+              <span class="article-author" [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ getTranslatedText('HELP_SUPPORT.BY') }} {{ article.author }}</span>
+              <span class="article-date" [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ article.createdAt | date:'short' }}</span>
+            </div>
+            <div class="article-stats">
+              <span class="stat" [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">👁️ {{ article.views }} {{ getTranslatedText('HELP_SUPPORT.VIEWS') }}</span>
+              <span class="stat" [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">👍 {{ article.helpful }} {{ getTranslatedText('HELP_SUPPORT.HELPFUL') }}</span>
+            </div>
+            <div class="article-tags">
+              <span *ngFor="let tag of article.tags" class="tag">{{ tag }}</span>
+            </div>
+            <div class="article-actions">
+              <button class="view-btn" (click)="viewArticle(article)" [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ getTranslatedText('HELP_SUPPORT.READ_ARTICLE') }}</button>
+              <button class="helpful-btn" (click)="markArticleHelpful(article)" [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">👍 {{ getTranslatedText('HELP_SUPPORT.HELPFUL') }}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact Support Section -->
+      <div class="help-section">
+        <div class="section-header">
+          <h2 [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ getTranslatedText('HELP_SUPPORT.STILL_NEED_HELP') }}</h2>
+        </div>
+        <div class="contact-support-grid">
+          <div class="contact-card">
+            <div class="contact-icon">📧</div>
+            <h3 [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ getTranslatedText('HELP_SUPPORT.EMAIL_SUPPORT') }}</h3>
+            <p [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ getTranslatedText('HELP_SUPPORT.EMAIL_SUPPORT_DESC') }}</p>
+            <button class="contact-btn" [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ getTranslatedText('HELP_SUPPORT.SEND_EMAIL') }}</button>
+          </div>
+          <div class="contact-card">
+            <div class="contact-icon">💬</div>
+            <h3 [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ getTranslatedText('HELP_SUPPORT.LIVE_CHAT') }}</h3>
+            <p [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ getTranslatedText('HELP_SUPPORT.LIVE_CHAT_DESC') }}</p>
+            <button class="contact-btn" [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ getTranslatedText('HELP_SUPPORT.START_CHAT') }}</button>
+          </div>
+          <div class="contact-card">
+            <div class="contact-icon">📞</div>
+            <h3 [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ getTranslatedText('HELP_SUPPORT.PHONE_SUPPORT') }}</h3>
+            <p [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ getTranslatedText('HELP_SUPPORT.PHONE_SUPPORT_DESC') }}</p>
+            <button class="contact-btn" [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ getTranslatedText('HELP_SUPPORT.CALL_NOW') }}</button>
+          </div>
+          <div class="contact-card">
+            <div class="contact-icon">📖</div>
+            <h3 [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ getTranslatedText('HELP_SUPPORT.DOCUMENTATION') }}</h3>
+            <p [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ getTranslatedText('HELP_SUPPORT.DOCUMENTATION_DESC') }}</p>
+            <button class="contact-btn" [class.rtl-text]="isRTL" [class.ltr-text]="!isRTL">{{ getTranslatedText('HELP_SUPPORT.VIEW_DOCS') }}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div> 

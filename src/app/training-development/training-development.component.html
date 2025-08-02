@@ -1,0 +1,389 @@
+<div class="edash-root" [class.dark-mode]="darkMode">
+  <!-- Sidenav -->
+  <aside class="edash-sidenav" [class.collapsed]="sidebarCollapsed" [class.dark-mode]="darkMode">
+    <div class="edash-sidenav-header">
+      <img src="https://lms-frontend-resources.s3.ap-south-1.amazonaws.com/marlnLogo.jpeg" alt="Logo" class="edash-logo" />
+      <span *ngIf="!sidebarCollapsed" class="edash-title">Marketing Head</span>
+    </div>
+    <nav class="edash-nav">
+      <a routerLink="/marketing-head" class="edash-nav-link" data-title="Dashboard">
+        <span class="edash-nav-icon">📊</span>
+        <span *ngIf="!sidebarCollapsed">{{ getTranslatedText('NAVIGATION.DASHBOARD') }}</span>
+      </a>
+      <a routerLink="/marketing-team" class="edash-nav-link" data-title="Team Management">
+        <span class="edash-nav-icon">👥</span>
+        <span *ngIf="!sidebarCollapsed">{{ getTranslatedText('NAVIGATION.TEAM_MANAGEMENT') }}</span>
+      </a>
+      <a routerLink="/leads" class="edash-nav-link" data-title="Leads">
+        <span class="edash-nav-icon">🎯</span>
+        <span *ngIf="!sidebarCollapsed">{{ getTranslatedText('NAVIGATION.LEADS') }}</span>
+      </a>
+      
+      <a routerLink="/resource-management" class="edash-nav-link" data-title="Resource Management">
+        <span class="edash-nav-icon">📦</span>
+        <span *ngIf="!sidebarCollapsed">{{ getTranslatedText('NAVIGATION.RESOURCE_MANAGEMENT') }}</span>
+      </a>
+      <a routerLink="/report-analytics" class="edash-nav-link" data-title="Report & Analytics">
+        <span class="edash-nav-icon">📈</span>
+        <span *ngIf="!sidebarCollapsed">{{ getTranslatedText('NAVIGATION.REPORT_ANALYTICS') }}</span>
+      </a>
+      
+      <a routerLink="/training-development" class="edash-nav-link active" data-title="Training & Develop">
+        <span class="edash-nav-icon">🎓</span>
+        <span *ngIf="!sidebarCollapsed">{{ getTranslatedText('NAVIGATION.TRAINING_DEVELOP') }}</span>
+      </a>
+     
+      <a routerLink="/help-support" class="edash-nav-link" data-title="Help & Support">
+        <span class="edash-nav-icon">🆘</span>
+        <span *ngIf="!sidebarCollapsed">{{ getTranslatedText('NAVIGATION.HELP_SUPPORT') }}</span>
+      </a>
+      <div class="edash-nav-actions">
+        <app-unified-language-toggle></app-unified-language-toggle>
+        <button class="edash-logout" (click)="logout()" aria-label="Logout" data-title="Logout">
+          <span class="icon">🚪</span>
+          <span *ngIf="!sidebarCollapsed">{{ getTranslatedText('NAVIGATION.LOGOUT') }}</span>
+        </button>
+        <button class="edash-sidenav-toggle" (click)="sidebarCollapsed=!sidebarCollapsed" aria-label="Toggle sidenav" data-title="Collapse">
+          <span class="icon">⬅️</span>
+          <span *ngIf="!sidebarCollapsed">{{ getTranslatedText('NAVIGATION.COLLAPSE') }}</span>
+        </button>
+        <button class="edash-dark-toggle" (click)="toggleDarkMode()" aria-label="Toggle dark mode" data-title="Light Mode">
+          <span class="icon">☀️</span>
+          <span *ngIf="!sidebarCollapsed">{{ getTranslatedText('NAVIGATION.LIGHT_MODE') }}</span>
+        </button>
+      </div>
+    </nav>
+  </aside>
+  
+  <!-- Main Content -->
+  <main class="edash-main" [class.sidebar-collapsed]="sidebarCollapsed" [class.dark-mode]="darkMode">
+    <div class="dashboard-header">
+      <div>
+        <h1 class="header-title">📚 {{ getTranslatedText('TRAINING_DEVELOPMENT.TITLE') }}</h1>
+        <p class="header-subtitle">{{ getTranslatedText('TRAINING_DEVELOPMENT.SUBTITLE') }}</p>
+      </div>
+    </div>
+    
+    <div class="dashboard-content">
+      <!-- NexusHiveAI Section -->
+      <div class="ai-section">
+        <h2 class="ai-title">⚡ NexusHiveAI: Your Learning Partner</h2>
+        <p class="ai-description">NexusHiveAI is here to enhance your learning experience with personalized course recommendations and insights. Check out our recommended courses below!</p>
+        
+        <div class="course-cards">
+          <div class="course-card">
+            <div class="course-icon">🏠📧💻▶️📶</div>
+            <h3 class="course-title">Digital Marketing Mastery</h3>
+            <p class="course-subtitle">Digital Marketing Fundamentals</p>
+            <p class="course-description">Learn advanced strategies for digital marketing success.</p>
+          </div>
+          
+          <div class="course-card">
+            <div class="course-icon">🏠📧💻▶️📶</div>
+            <h3 class="course-title">Digital Marketing Mastery</h3>
+            <p class="course-subtitle">Advanced Lead Generation</p>
+            <p class="course-description">Master data-driven decision-making in marketing.</p>
+          </div>
+          
+          <div class="course-card gradient">
+            <div class="course-icon">🏁</div>
+            <h3 class="course-title">Leadership in Marketing</h3>
+            <p class="course-subtitle">Campaign Management</p>
+            <p class="course-description">Develop leadership skills for marketing teams.</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Training Dashboard Section -->
+      <div class="training-dashboard">
+        <h2 class="section-title">📊 Training Dashboard</h2>
+        
+        <div class="tab-buttons">
+          <button class="tab-btn" [class.active]="activeTab === 'skillGap'" (click)="setActiveTab('skillGap')">
+            {{ getTranslatedText('TRAINING_DEVELOPMENT.SKILL_GAP') }}
+          </button>
+          <button class="tab-btn" [class.active]="activeTab === 'roi'" (click)="setActiveTab('roi')">
+            Training ROI Estimator
+          </button>
+        </div>
+        
+        <div class="dashboard-content-grid">
+          <div class="upcoming-sessions">
+            <h3>{{ getTranslatedText('TRAINING_DEVELOPMENT.UPCOMING_SESSION') }}</h3>
+            <p>{{ upcomingSession }}</p>
+          </div>
+          
+          <div class="team-performance">
+            <h3>{{ getTranslatedText('TRAINING_DEVELOPMENT.TEAM_PERFORMANCE') }}</h3>
+            <table class="performance-table">
+              <thead>
+                <tr>
+                  <th>Team Member</th>
+                  <th>{{ getTranslatedText('TRAINING_DEVELOPMENT.COMPLETED') }}</th>
+                  <th>{{ getTranslatedText('TRAINING_DEVELOPMENT.PENDING') }}</th>
+                  <th>Skill Gap</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let member of teamPerformance">
+                  <td>{{ member.name }}</td>
+                  <td>{{ member.completed }}</td>
+                  <td>{{ member.pending }}</td>
+                  <td>{{ member.skillGap }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          
+          <div class="certification-status">
+            <h3>{{ getTranslatedText('TRAINING_DEVELOPMENT.CERTIFICATION_STATUS') }}</h3>
+            <div class="status-list">
+              <div *ngFor="let cert of certificationStatus" class="status-item">
+                <span class="status-name">{{ cert.name }}:</span>
+                <span class="status-value" [class]="'status-' + cert.color">{{ cert.status }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="ai-insights">
+          <div class="insight-card">
+            <h4>AI Skill Gap Prediction</h4>
+            <p>USA needs Analytics upskilling based on recent campaign performance.</p>
+          </div>
+          <div class="insight-card">
+            <h4>AI Training ROI Estimator</h4>
+            <p>Campaign ROI improved by 15% after Google Ads training.</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Training Calendar Section -->
+      <div class="training-calendar">
+        <h2 class="section-title">Training Calendar</h2>
+        
+        <div class="tab-buttons">
+          <button class="tab-btn" [class.active]="trainingCalendarTab === 'smartRescheduling'" (click)="setTrainingCalendarTab('smartRescheduling')">
+            Smart Rescheduling
+          </button>
+          <button class="tab-btn" [class.active]="trainingCalendarTab === 'reminders'" (click)="setTrainingCalendarTab('reminders')">
+            Reminders & Nudges
+          </button>
+        </div>
+        
+        <div class="calendar-grid">
+          <div class="calendar">
+            <h3>April 2025</h3>
+            <div class="calendar-days">
+              <div class="day-header">Sun</div>
+              <div class="day-header">Mon</div>
+              <div class="day-header">Tue</div>
+              <div class="day-header">Wed</div>
+              <div class="day-header">Thu</div>
+              <div class="day-header">Fri</div>
+              <div class="day-header">Sat</div>
+              <div class="day" *ngFor="let day of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30]">{{ day }}</div>
+            </div>
+          </div>
+          
+          <div class="ai-suggestions">
+            <div class="ai-suggestion-card">
+              <div class="ai-icon">💡</div>
+              <h4>AI Smart Rescheduling</h4>
+              <p>Suggested: Move 'Meta Ads Certification' to avoid campaign overlap.</p>
+            </div>
+            
+            <div class="ai-suggestion-card">
+              <div class="ai-icon">💡</div>
+              <h4>AI Reminders & Nudges</h4>
+              <p>USA has overdue learning: 'CRM Lead Nurturing'.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Course Library Section -->
+      <div class="course-library">
+        <h2 class="section-title">Course Library / LMS Integration</h2>
+        
+        <div class="tab-buttons">
+          <button class="tab-btn" [class.active]="courseLibraryTab === 'adaptiveLearning'" (click)="setCourseLibraryTab('adaptiveLearning')">
+            Adaptive Learning Path
+          </button>
+          <button class="tab-btn" [class.active]="courseLibraryTab === 'autoTests'" (click)="setCourseLibraryTab('autoTests')">
+            Auto-Generated Tests
+          </button>
+        </div>
+        
+        <div class="course-table-container">
+          <table class="course-table">
+            <thead>
+              <tr>
+                <th>Course</th>
+                <th>{{ getTranslatedText('TRAINING_DEVELOPMENT.TYPE') }}</th>
+                <th>{{ getTranslatedText('TRAINING_DEVELOPMENT.COMPLETED') }}</th>
+                <th>{{ getTranslatedText('TRAINING_DEVELOPMENT.LINK') }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let course of courses">
+                <td>{{ course.title }}</td>
+                <td>{{ course.type }}</td>
+                <td>{{ course.completed }}</td>
+                <td><a href="#" class="link-btn">{{ course.link }}</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
+        <div class="ai-insights">
+          <div class="insight-card">
+            <h4>AI Adaptive Learning Path</h4>
+            <p>USA recommended to take 'Analytics for Marketers' next.</p>
+          </div>
+          <div class="insight-card">
+            <h4>AI Auto-Generated Test</h4>
+            <p>Quiz created from 'Google Ads Basics' PDF.</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Team Member Skill Profiles Section -->
+      <div class="skill-profiles">
+        <h2 class="section-title">Team Member Skill Profiles</h2>
+        
+        <div class="tab-buttons">
+          <button class="tab-btn" [class.active]="skillProfilesTab === 'skillScore'" (click)="setSkillProfilesTab('skillScore')">
+            Skill Score Index
+          </button>
+          <button class="tab-btn" [class.active]="skillProfilesTab === 'promotion'" (click)="setSkillProfilesTab('promotion')">
+            Promotion Readiness
+          </button>
+        </div>
+        
+        <div class="skill-table-container">
+          <table class="skill-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>{{ getTranslatedText('TRAINING_DEVELOPMENT.SKILLS') }}</th>
+                <th>{{ getTranslatedText('TRAINING_DEVELOPMENT.COMPLETED') }}</th>
+                <th>{{ getTranslatedText('TRAINING_DEVELOPMENT.PENDING') }}</th>
+                <th>{{ getTranslatedText('TRAINING_DEVELOPMENT.GOALS') }}</th>
+                <th>{{ getTranslatedText('TRAINING_DEVELOPMENT.FEEDBACK') }}</th>
+                <th>{{ getTranslatedText('TRAINING_DEVELOPMENT.SKILL_SCORE') }}</th>
+                <th>{{ getTranslatedText('TRAINING_DEVELOPMENT.PROMOTION_READY') }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let member of teamMembers">
+                <td>{{ member.name }}</td>
+                <td>{{ member.skills.join(', ') }}</td>
+                <td>{{ member.completed }}</td>
+                <td>{{ member.pending }}</td>
+                <td>{{ member.goals }}</td>
+                <td>{{ member.feedback }}</td>
+                <td>{{ member.skillScore }}</td>
+                <td>
+                  <span class="status-badge" [class]="member.promotionReady ? 'status-ready' : 'status-not-ready'">
+                    {{ member.promotionReady ? 'Yes' : 'No' }}
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
+        <div class="ai-insights">
+          <div class="insight-card">
+            <h4>AI Skill Score Index</h4>
+            <p>USA skill score updated after campaign assessment.</p>
+          </div>
+          <div class="insight-card">
+            <h4>AI Promotion Readiness</h4>
+            <p>USA flagged as ready for new role.</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Training Requests Section -->
+      <div class="training-requests">
+        <h2 class="section-title">🎓 Training Requests & Approvals</h2>
+        <div class="tag">Cost-Impact Analyzer</div>
+        
+        <div class="requests-table-container">
+          <table class="requests-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>{{ getTranslatedText('TRAINING_DEVELOPMENT.REQUEST') }}</th>
+                <th>{{ getTranslatedText('TRAINING_DEVELOPMENT.TYPE') }}</th>
+                <th>{{ getTranslatedText('TRAINING_DEVELOPMENT.STATUS') }}</th>
+                <th>{{ getTranslatedText('TRAINING_DEVELOPMENT.COST') }} ($)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let request of trainingRequests">
+                <td>{{ request.name }}</td>
+                <td>{{ request.request }}</td>
+                <td>{{ request.type }}</td>
+                <td>
+                  <span class="status-badge" [class]="'status-' + request.status.toLowerCase()">
+                    {{ request.status }}
+                  </span>
+                </td>
+                <td>${{ request.cost }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
+        <div class="ai-insights">
+          <div class="insight-card">
+            <h4>AI Cost-Impact Analyzer</h4>
+            <p>Meta Ads Webinar expected to improve campaign ROI by 10%.</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Knowledge Management Section -->
+      <div class="knowledge-management">
+        <h2 class="section-title">📚 Knowledge Management</h2>
+        <div class="tags">
+          <span class="tag">AI-Powered Search</span>
+          <span class="tag">Auto-Tagging</span>
+        </div>
+        
+        <div class="knowledge-table-container">
+          <table class="knowledge-table">
+            <thead>
+              <tr>
+                <th>{{ getTranslatedText('TRAINING_DEVELOPMENT.TITLE') }}</th>
+                <th>{{ getTranslatedText('TRAINING_DEVELOPMENT.TYPE') }}</th>
+                <th>{{ getTranslatedText('TRAINING_DEVELOPMENT.TAGS') }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let resource of knowledgeResources">
+                <td>{{ resource.title }}</td>
+                <td>{{ resource.type }}</td>
+                <td>{{ resource.tags.join(', ') }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
+        <div class="ai-insights">
+          <div class="insight-card">
+            <h4>AI-Powered Search</h4>
+            <p>"Show me all SOPs for campaign launch"</p>
+          </div>
+          <div class="insight-card">
+            <h4>AI Auto-Tagging</h4>
+            <p>"Failed Lead Campaign Insights" auto-tagged as Report, Leads.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div> 

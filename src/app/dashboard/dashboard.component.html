@@ -1,0 +1,632 @@
+<div class="dashboard-banner"></div>
+<header class="dashboard-header esg-header glass-header" aria-label="Main site header">
+  <div class="logo" aria-label="ESG Platform Home"><span class="esg-leaf">🌱</span> ESG Platform</div>
+  <nav class="dashboard-nav compact-nav" aria-label="Main navigation">
+    <a href="/environmental"><span class="nav-icon">🌱</span> {{ getTranslatedText('NAVIGATION.ENVIRONMENTAL') }}</a>
+    <a href="/social" target="_blank" rel="noopener"><span class="nav-icon">🤝</span> {{ getTranslatedText('NAVIGATION.SOCIAL') }}</a>
+    <a href="/governance" target="_blank" rel="noopener"><span class="nav-icon">🏛️</span> {{ getTranslatedText('NAVIGATION.GOVERNANCE') }}</a>
+    <a href="/reporting" target="_blank" rel="noopener"><span class="nav-icon">📊</span> {{ getTranslatedText('NAVIGATION.REPORTING') }}</a>
+    <a href="/integrations" target="_blank" rel="noopener"><span class="nav-icon">🔗</span> {{ getTranslatedText('NAVIGATION.INTEGRATIONS') }}</a>
+    <a href="/compliance" target="_blank" rel="noopener"><span class="nav-icon">⚖️</span> {{ getTranslatedText('NAVIGATION.COMPLIANCE') }}</a>
+    <a href="/ai" target="_blank" rel="noopener"><span class="nav-icon">🤖</span> {{ getTranslatedText('NAVIGATION.AI') }}</a>
+    <a href="/localization" target="_blank" rel="noopener"><span class="nav-icon">🌍</span> {{ getTranslatedText('NAVIGATION.LOCALIZATION') }}</a>
+    <a href="/security" target="_blank" rel="noopener"><span class="nav-icon">🔒</span> {{ getTranslatedText('NAVIGATION.SECURITY') }}</a>
+    <a href="/ux" target="_blank" rel="noopener"><span class="nav-icon">👥</span> {{ getTranslatedText('NAVIGATION.UX') }}</a>
+  </nav>
+  <div class="header-divider"></div>
+  <div class="header-controls">
+    <button class="login-btn" (click)="openLoginPopup()">{{ getTranslatedText('DASHBOARD.LOGIN') }}</button>
+    <app-unified-language-toggle></app-unified-language-toggle>
+  </div>
+</header>
+
+<div class="dashboard-root" [class.dark-mode]="darkMode">
+  <!-- Side Navigation -->
+  <aside class="mdash-sidenav" [class.collapsed]="sidebarCollapsed">
+    <div class="mdash-sidenav-header">
+      <div class="mdash-logo">MARLN</div>
+      <div class="mdash-user-title">ESG Platform</div>
+    </div>
+    <nav class="mdash-nav">
+      <a routerLink="/environmental-dashboard" class="mdash-nav-link"><span class="mdash-nav-icon">🌱</span><span *ngIf="!sidebarCollapsed">{{ getTranslatedText('NAVIGATION.E_DASHBOARD') }}</span></a>
+      <a routerLink="/social-dashboard" class="mdash-nav-link"><span class="mdash-nav-icon">🤝</span><span *ngIf="!sidebarCollapsed">{{ getTranslatedText('NAVIGATION.S_DASHBOARD') }}</span></a>
+      <a routerLink="/governance" class="mdash-nav-link"><span class="mdash-nav-icon">🏛️</span><span *ngIf="!sidebarCollapsed">{{ getTranslatedText('NAVIGATION.G_DASHBOARD') }}</span></a>
+      <a routerLink="/materiality" class="mdash-nav-link"><span class="mdash-nav-icon">📊</span><span *ngIf="!sidebarCollapsed">{{ getTranslatedText('NAVIGATION.MATERIALITY') }}</span></a>
+      <a routerLink="/reporting" class="mdash-nav-link"><span class="mdash-nav-icon">📈</span><span *ngIf="!sidebarCollapsed">{{ getTranslatedText('NAVIGATION.REPORTING') }}</span></a>
+      <a routerLink="/integrations" class="mdash-nav-link"><span class="mdash-nav-icon">🔗</span><span *ngIf="!sidebarCollapsed">{{ getTranslatedText('NAVIGATION.INTEGRATIONS') }}</span></a>
+      <a routerLink="/compliance" class="mdash-nav-link"><span class="mdash-nav-icon">⚖️</span><span *ngIf="!sidebarCollapsed">{{ getTranslatedText('NAVIGATION.COMPLIANCE') }}</span></a>
+      <a routerLink="/ai" class="mdash-nav-link"><span class="mdash-nav-icon">🤖</span><span *ngIf="!sidebarCollapsed">{{ getTranslatedText('NAVIGATION.AI') }}</span></a>
+      <a routerLink="/localization" class="mdash-nav-link"><span class="mdash-nav-icon">🌍</span><span *ngIf="!sidebarCollapsed">{{ getTranslatedText('NAVIGATION.LOCALIZATION') }}</span></a>
+      <a routerLink="/security" class="mdash-nav-link"><span class="mdash-nav-icon">🔒</span><span *ngIf="!sidebarCollapsed">{{ getTranslatedText('NAVIGATION.SECURITY') }}</span></a>
+      <a routerLink="/ux" class="mdash-nav-link"><span class="mdash-nav-icon">👥</span><span *ngIf="!sidebarCollapsed">{{ getTranslatedText('NAVIGATION.UX') }}</span></a>
+    </nav>
+                    <div class="mdash-sidenav-footer">
+                  <app-unified-language-toggle></app-unified-language-toggle>
+                  <button class="mdash-sidenav-toggle" (click)="sidebarCollapsed = !sidebarCollapsed">{{ sidebarCollapsed ? '→' : '←' }}</button>
+                  <button class="mdash-dark-toggle" (click)="toggleDarkMode()">{{ darkMode ? '☀️' : '🌙' }}<span *ngIf="!sidebarCollapsed"> {{ darkMode ? getTranslatedText('DASHBOARD.LIGHT_MODE') : getTranslatedText('DASHBOARD.DARK_MODE') }}</span></button>
+      <button class="mdash-logout" *ngIf="!sidebarCollapsed">{{ getTranslatedText('DASHBOARD.LOGOUT') }}</button>
+    </div>
+  </aside>
+  <!-- Main Content -->
+  <div class="dashboard-content">
+  <main class="dashboard-main">
+    <section class="hero compact-hero big-hero-card">
+      <div class="hero-header-row hero-header-card big-hero-header-card">
+        <span class="hero-header-icon big-leaf">🌱</span>
+        <span class="hero-header-title big-title">{{ getTranslatedText('DASHBOARD.WELCOME_TITLE') }}</span>
+        <span class="hero-header-icon big-hand">🤝</span>
+      </div>
+      <p class="hero-desc small-hero-desc">
+        {{ getTranslatedText('DASHBOARD.WELCOME_DESCRIPTION') }}
+      </p>
+      <div class="hero-banner-data compact-banner-data">
+        <div class="banner-data-item"><span class="banner-data-label">{{ getTranslatedText('DASHBOARD.ESG_SCORE') }}</span><span class="banner-data-value">87.2</span></div>
+        <div class="banner-data-item"><span class="banner-data-label">{{ getTranslatedText('DASHBOARD.USERS') }}</span><span class="banner-data-value">1,240</span></div>
+        <div class="banner-data-item"><span class="banner-data-label">{{ getTranslatedText('DASHBOARD.REPORTS') }}</span><span class="banner-data-value">312</span></div>
+        <div class="banner-data-item"><span class="banner-data-label">{{ getTranslatedText('DASHBOARD.PROJECTS') }}</span><span class="banner-data-value">28</span></div>
+      </div>
+      <a routerLink="/materiality" class="cta-btn small-cta" style="margin-top:1.2rem;">{{ getTranslatedText('DASHBOARD.MATERIALITY_ASSESSMENT') }}</a>
+      <button class="cta-btn small-cta">{{ getTranslatedText('DASHBOARD.GET_STARTED') }}</button>
+    </section>
+
+    <!-- ESG Info Cards -->
+    <section class="esg-info-cards">
+      <div class="esg-info-card">
+        <span class="esg-info-icon">♻️</span>
+        <div class="esg-info-title">{{ getTranslatedText('INFO_CARDS.CIRCULAR_ECONOMY_TITLE') }}</div>
+        <div class="esg-info-desc">{{ getTranslatedText('INFO_CARDS.CIRCULAR_ECONOMY_DESC') }}</div>
+      </div>
+      <div class="esg-info-card">
+        <span class="esg-info-icon">💧</span>
+        <div class="esg-info-title">{{ getTranslatedText('INFO_CARDS.WATER_CONSERVATION_TITLE') }}</div>
+        <div class="esg-info-desc">{{ getTranslatedText('INFO_CARDS.WATER_CONSERVATION_DESC') }}</div>
+      </div>
+      <div class="esg-info-card">
+        <span class="esg-info-icon">🌞</span>
+        <div class="esg-info-title">{{ getTranslatedText('INFO_CARDS.RENEWABLE_ENERGY_TITLE') }}</div>
+        <div class="esg-info-desc">{{ getTranslatedText('INFO_CARDS.RENEWABLE_ENERGY_DESC') }}</div>
+      </div>
+      <div class="esg-info-card">
+        <span class="esg-info-icon">🧑‍🤝‍🧑</span>
+        <div class="esg-info-title">{{ getTranslatedText('INFO_CARDS.DIVERSITY_INCLUSION_TITLE') }}</div>
+        <div class="esg-info-desc">{{ getTranslatedText('INFO_CARDS.DIVERSITY_INCLUSION_DESC') }}</div>
+      </div>
+      <div class="esg-info-card">
+        <span class="esg-info-icon">🔍</span>
+        <div class="esg-info-title">{{ getTranslatedText('INFO_CARDS.TRANSPARENCY_TITLE') }}</div>
+        <div class="esg-info-desc">{{ getTranslatedText('INFO_CARDS.TRANSPARENCY_DESC') }}</div>
+      </div>
+    </section>
+
+    <!-- Animated ESG Text Section -->
+    <section class="esg-animated-texts">
+      <span class="esg-anim-text from-top esg-anim-on-scroll">Sustainability is a journey, not a destination.</span>
+      <span class="esg-anim-text from-left esg-anim-on-scroll">Empower your team with real-time ESG insights.</span>
+      <span class="esg-anim-text from-right esg-anim-on-scroll">Drive positive impact for people and planet.</span>
+      <span class="esg-anim-text from-bottom esg-anim-on-scroll">Together, we build a responsible future.</span>
+    </section>
+
+    <!-- Left-side animated ESG text (now in normal flow) -->
+    <div class="esg-anim-text esg-anim-on-scroll from-left">
+      🌳 Green innovation for a better tomorrow.
+    </div>
+
+    <!-- Right-side animated ESG text (now in normal flow) -->
+    <div class="esg-anim-text esg-anim-on-scroll from-right">
+      🌏 Global responsibility starts with you.
+    </div>
+
+    <!-- Between cards and analytics -->
+    <section class="esg-animated-texts between-section-texts">
+      <span class="esg-anim-text from-top esg-anim-on-scroll">Transparency and ethics are the foundation of trust.</span>
+      <span class="esg-anim-text from-bottom esg-anim-on-scroll">Every action counts in the ESG journey.</span>
+    </section>
+
+    <section class="why-esg-matters-section">
+      <div class="why-header-row">
+        <h2>Why ESG Matters? <span class="ai-badge">AI/ML Powered</span></h2>
+        <button class="ai-insight-btn" (click)="openAiModal('whyESG', '', 'Why ESG Matters?')">View AI Insight</button>
+      </div>
+      <blockquote class="ai-quote">
+        “AI-driven ESG strategies are transforming business resilience and stakeholder trust.”
+      </blockquote>
+      <div class="why-content-row">
+        <div class="why-anim-col">
+          <div class="esg-css-anim tree-anim-on-scroll">
+            <!-- Beautiful SVG Tree -->
+            <svg viewBox="0 0 220 260" width="220" height="260" style="display:block;margin:auto;">
+              <!-- Trunk -->
+              <rect x="100" y="140" width="20" height="70" rx="10" fill="#8d6e63">
+                <animate attributeName="height" from="0" to="70" dur="1.2s" begin="0.2s" fill="freeze" />
+                <animate attributeName="y" from="210" to="140" dur="1.2s" begin="0.2s" fill="freeze" />
+              </rect>
+              <!-- Branches -->
+              <path d="M110 170 Q80 150 60 120" stroke="#8d6e63" stroke-width="8" fill="none">
+                <animate attributeName="d" from="M110 170 Q110 170 110 170" to="M110 170 Q80 150 60 120" dur="1s" begin="1.1s" fill="freeze" />
+              </path>
+              <path d="M110 170 Q140 150 160 120" stroke="#8d6e63" stroke-width="8" fill="none">
+                <animate attributeName="d" from="M110 170 Q110 170 110 170" to="M110 170 Q140 150 160 120" dur="1s" begin="1.2s" fill="freeze" />
+              </path>
+              <path d="M110 180 Q90 200 70 220" stroke="#8d6e63" stroke-width="7" fill="none">
+                <animate attributeName="d" from="M110 180 Q110 180 110 180" to="M110 180 Q90 200 70 220" dur="1s" begin="1.3s" fill="freeze" />
+              </path>
+              <path d="M120 180 Q140 200 150 230" stroke="#8d6e63" stroke-width="7" fill="none">
+                <animate attributeName="d" from="M120 180 Q120 180 120 180" to="M120 180 Q140 200 150 230" dur="1s" begin="1.4s" fill="freeze" />
+              </path>
+              <!-- Canopy (leaves) -->
+              <ellipse cx="110" cy="110" rx="70" ry="50" fill="url(#leafGradient)">
+                <animate attributeName="rx" from="0" to="70" dur="1.2s" begin="1.5s" fill="freeze" />
+                <animate attributeName="ry" from="0" to="50" dur="1.2s" begin="1.5s" fill="freeze" />
+              </ellipse>
+              <ellipse cx="60" cy="90" rx="30" ry="20" fill="#7be495" opacity="0.8">
+                <animate attributeName="rx" from="0" to="30" dur="1s" begin="1.7s" fill="freeze" />
+                <animate attributeName="ry" from="0" to="20" dur="1s" begin="1.7s" fill="freeze" />
+              </ellipse>
+              <ellipse cx="160" cy="90" rx="25" ry="18" fill="#b2f7ef" opacity="0.7">
+                <animate attributeName="rx" from="0" to="25" dur="1s" begin="1.8s" fill="freeze" />
+                <animate attributeName="ry" from="0" to="18" dur="1s" begin="1.8s" fill="freeze" />
+              </ellipse>
+              <!-- Sparkles -->
+              <circle cx="80" cy="60" r="4" fill="#ffd600">
+                <animate attributeName="r" values="0;4;0;4;0" keyTimes="0;0.2;0.5;0.8;1" dur="2.5s" repeatCount="indefinite" />
+              </circle>
+              <circle cx="140" cy="55" r="3" fill="#fff176">
+                <animate attributeName="r" values="0;3;0;3;0" keyTimes="0;0.3;0.6;0.9;1" dur="2.2s" repeatCount="indefinite" />
+              </circle>
+              <circle cx="120" cy="80" r="2.5" fill="#fffde7">
+                <animate attributeName="r" values="0;2.5;0;2.5;0" keyTimes="0;0.4;0.7;1;1" dur="2.1s" repeatCount="indefinite" />
+              </circle>
+              <defs>
+                <linearGradient id="leafGradient" x1="40" y1="60" x2="180" y2="160" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#7be495" />
+                  <stop offset="1" stop-color="#388e3c" />
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+        </div>
+        <div class="why-list-col">
+          <ul>
+            <li><span class="why-icon">🌍</span> Reduce environmental impact and carbon footprint</li>
+            <li><span class="why-icon">🤝</span> Promote diversity, equity, and inclusion</li>
+            <li><span class="why-icon">🏛️</span> Ensure ethical leadership and transparency</li>
+            <li><span class="why-icon">📊</span> Meet compliance and reporting requirements</li>
+            <li><span class="why-icon">🤖</span> Leverage AI for predictive sustainability insights</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="animated-stats">
+      <div class="stats-header-row">
+        <h2>Key ESG Stats <span class="ai-badge">AI/ML Powered</span></h2>
+      </div>
+      <div class="stat-card" *ngFor="let stat of stats">
+        <div class="stat-icon">{{ stat.icon }}</div>
+        <div class="stat-value">{{ stat.value }}</div>
+        <div class="stat-label">{{ stat.label }}</div>
+        <button class="ai-insight-btn" (click)="openAiModal('stat', stat.key, stat.label)">View AI Insight</button>
+      </div>
+    </section>
+
+    <!-- Regulatory Alignment Section (AI/ML Powered) -->
+    <section class="regulatory-alignment-section">
+      <div class="reg-alignment-card">
+        <h3>Regulatory Alignment <span class="ai-badge">AI/ML Powered</span></h3>
+        <table class="reg-table">
+          <thead>
+            <tr>
+              <th>Standard</th>
+              <th>Region</th>
+              <th>Compliance</th>
+              <th>Last Audit</th>
+              <th>AI/GenAI Recommendations</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let reg of regulatoryData">
+              <td>{{ reg.name }}</td>
+              <td>{{ reg.region }}</td>
+              <td>
+                <span class="reg-compliance-bar">
+                  <span class="reg-compliance-fill" [style.width.%]="reg.compliance"></span>
+                </span>
+                <span class="reg-compliance-label">{{ reg.compliance }}%</span>
+              </td>
+              <td>{{ reg.lastAudit }}</td>
+              <td>
+                <button class="reg-recommend-btn" (click)="openRegModal(reg)">View</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+    <div class="reg-modal" *ngIf="showRegModal">
+      <div class="reg-modal-content">
+        <button class="close-btn" (click)="closeRegModal()">✖</button>
+        <h3>{{ selectedReg?.name }} Recommendations</h3>
+        <div *ngIf="selectedReg">
+          <p><strong>Region:</strong> {{ selectedReg.region }}</p>
+          <p><strong>Compliance:</strong> {{ selectedReg.compliance }}%</p>
+          <p><strong>Last Audit:</strong> {{ selectedReg.lastAudit }}</p>
+          <p class="genai-recommend">{{ selectedReg.recommendation }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sector-Specific Modules Section (AI/ML Powered) -->
+    <section class="sector-modules-section">
+      <h2>Sector-Specific Modules <span class="ai-badge">AI/ML Powered</span></h2>
+      <table class="sector-table">
+        <thead>
+          <tr>
+            <th>Sector</th>
+            <th>AI/ML Features</th>
+            <th>Compliance Focus</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let mod of sectorModules">
+            <td *ngIf="editingSector?.key !== mod.key"><b>{{ mod.sector }}</b></td>
+            <td *ngIf="editingSector?.key === mod.key"><input [(ngModel)]="editingSector.sector" /></td>
+            <td *ngIf="editingSector?.key !== mod.key">{{ mod.aiFeatures }}</td>
+            <td *ngIf="editingSector?.key === mod.key"><input [(ngModel)]="editingSector.aiFeatures" /></td>
+            <td *ngIf="editingSector?.key !== mod.key">{{ mod.complianceFocus }}</td>
+            <td *ngIf="editingSector?.key === mod.key"><input [(ngModel)]="editingSector.complianceFocus" /></td>
+            <td>
+              <button class="ai-insight-btn" (click)="openSectorAiModal(mod)">View AI Insight</button>
+              <button class="ai-insight-btn" *ngIf="editingSector?.key !== mod.key" (click)="editSector(mod)">Edit</button>
+              <button class="ai-insight-btn" *ngIf="editingSector?.key === mod.key" (click)="saveSectorEdit()">Save</button>
+              <button class="ai-insight-btn" *ngIf="editingSector?.key === mod.key" (click)="cancelSectorEdit()">Cancel</button>
+              <button class="ai-insight-btn" (click)="removeSector(mod)">Remove</button>
+            </td>
+          </tr>
+          <tr>
+            <td><input [(ngModel)]="newSector.sector" placeholder="Sector" /></td>
+            <td><input [(ngModel)]="newSector.aiFeatures" placeholder="AI/ML Features" /></td>
+            <td><input [(ngModel)]="newSector.complianceFocus" placeholder="Compliance Focus" /></td>
+            <td><button class="ai-insight-btn" (click)="addSector()">Add</button></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="sector-note">AI engine dynamically generates ESG narratives based on data trends and regulatory priorities per sector.</div>
+    </section>
+    <div class="ai-modal" *ngIf="sectorModalOpen">
+      <div class="ai-modal-content">
+        <button class="close-btn" (click)="closeSectorAiModal()">✖</button>
+        <h3>{{ sectorModalTitle }}</h3>
+        <div class="ai-modal-body">
+          <p>{{ sectorModalContent }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Materiality & ESG Overview Row -->
+    <section class="dashboard-row-cards">
+      <div class="dashboard-card materiality-card">
+        <h3>Materiality Matrix Builder <span class="ai-badge">AI/ML</span></h3>
+        <p>Auto-generates based on stakeholder sentiment (from surveys, social media, interviews).<br>AI ranks material issues based on regulatory weight and business risk.</p>
+        <button class="ai-insight-btn" (click)="openMaterialityMatrixModal()">Open Builder</button>
+      </div>
+      <div class="dashboard-card esg-overview-card">
+        <h3>ESG Performance Overview</h3>
+        <ul class="esg-overview-list">
+          <li><b>ESG Score:</b> {{ stats[0].value }}</li>
+          <li><b>Employee Diversity:</b> {{ stats[1].value }}</li>
+          <li><b>Compliance Score:</b> {{ stats[2].value }}</li>
+          <li><b>Active Integrations:</b> {{ stats[3].value }}</li>
+        </ul>
+        <p class="esg-overview-summary">Track your organization’s ESG performance at a glance. Updated in real time by AI/ML.</p>
+      </div>
+    </section>
+    <!-- End Materiality & ESG Overview Row -->
+
+    <section class="modules-section">
+      <h2>Explore ESG Modules <span class="ai-badge">AI/ML Powered</span></h2>
+      <div class="modules-toolbar">
+        <input class="modules-search" type="text" placeholder="Search modules..." [(ngModel)]="moduleSearch" />
+        <button class="modules-toggle" (click)="toggleChartType()">
+          <span *ngIf="chartType === 'bar'">Bar Chart</span>
+          <span *ngIf="chartType === 'line'">Line Chart</span>
+        </button>
+      </div>
+      <div class="modules-grid">
+        <div class="module-card" *ngFor="let module of filteredModules()">
+          <ng-container *ngIf="module.key !== 'materiality-matrix'">
+            <div class="module-icon">{{ module.icon }}</div>
+            <div class="module-title">{{ module.title }}</div>
+            <div class="module-desc">{{ module.description }}</div>
+            <div class="module-graph module-bar-graph" *ngIf="chartType === 'bar'">
+              <!-- Bar chart SVG for each module -->
+              <svg width="100" height="40" viewBox="0 0 100 40">
+                <rect x="5" y="20" width="8" height="15" fill="#6c63ff" rx="2" />
+                <rect x="18" y="10" width="8" height="25" fill="#2d2e83" rx="2" />
+                <rect x="31" y="25" width="8" height="10" fill="#ffce56" rx="2" />
+                <rect x="44" y="5" width="8" height="30" fill="#4bc0c0" rx="2" />
+                <rect x="57" y="15" width="8" height="20" fill="#e84393" rx="2" />
+                <rect x="70" y="12" width="8" height="23" fill="#9966ff" rx="2" />
+                <rect x="83" y="28" width="8" height="7" fill="#ff6384" rx="2" />
+              </svg>
+            </div>
+            <div class="module-graph module-line-graph" *ngIf="chartType === 'line'">
+              <!-- Line chart SVG for each module -->
+              <svg width="100" height="40">
+                <polyline points="0,30 20,10 40,20 60,5 80,25 100,10" style="fill:none;stroke:#6c63ff;stroke-width:3" />
+                <circle cx="20" cy="10" r="2.5" fill="#6c63ff" />
+                <circle cx="60" cy="5" r="2.5" fill="#2d2e83" />
+                <circle cx="80" cy="25" r="2.5" fill="#ffce56" />
+              </svg>
+            </div>
+            <div class="module-extra-data">
+              <span *ngIf="module.extra">{{ module.extra }}</span>
+            </div>
+            <a [routerLink]="'/' + module.route" class="module-link">Learn More</a>
+            <button class="ai-insight-btn" (click)="openAiModal('module', module.key, module.title)">View AI Insight</button>
+          </ng-container>
+        </div>
+      </div>
+    </section>
+
+    <section class="esg-extra-section">
+      <h2>ESG Highlights <span class="ai-badge">AI/ML Powered</span></h2>
+      <div class="esg-highlights">
+        <div class="highlight-item" *ngFor="let highlight of highlights">
+          <h3>{{ highlight.title }}</h3>
+          <p>{{ highlight.value }}</p>
+          <button class="ai-insight-btn" (click)="openAiModal('highlight', highlight.key, highlight.title)">View AI Insight</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- GenAI Personalized Dashboards Section (ESG Pillars Grid) -->
+    <section class="genai-pillars-section">
+      <h2>Key elements of ESG</h2>
+      <div class="genai-pillars-grid">
+        <div class="genai-pillar-col" *ngFor="let pillar of genaiPillars">
+          <div class="genai-pillar-header" [style.background]="pillar.color">{{ pillar.name }}</div>
+          <div class="genai-pillar-categories">
+            <div class="genai-pillar-category" *ngFor="let cat of pillar.categories">
+              <div class="genai-category-header">{{ cat.name }}</div>
+              <div class="genai-category-topics">
+                <div class="genai-topic-box" *ngFor="let topic of cat.topics">{{ topic }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GenAI Personalized Dashboards for Teams (Board, Finance, HR, Compliance) -->
+    <section class="genai-teams-section">
+      <h2>GenAI Personalized Dashboards <span class="ai-badge">AI/ML Powered</span></h2>
+      
+      <div class="genai-pillars-grid">
+        <div class="genai-pillar-col" *ngFor="let team of genaiTeams">
+          <div class="genai-pillar-header" [style.background]="team.color" (click)="openGenaiTeamModal(team)" style="cursor:pointer;">{{ team.name }}</div>
+          <div class="genai-pillar-categories">
+            <div class="genai-pillar-category" *ngFor="let cat of team.categories">
+              <div class="genai-category-header">{{ cat.name }}</div>
+              <div class="genai-category-topics">
+                <div class="genai-topic-box" *ngFor="let topic of cat.topics" (click)="openGenaiTopicModal(team, cat.name, topic)" style="cursor:pointer;">{{ topic }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Topic Insight Modal -->
+      <div class="genai-modal-backdrop" *ngIf="showGenaiTopicModal">
+        <div class="genai-modal-content">
+          <button class="close-btn" (click)="closeGenaiTopicModal()">✖</button>
+          <h3>{{ selectedGenaiTeam?.name }}: {{ selectedGenaiCategory }} - {{ selectedGenaiTopic }}</h3>
+          <p style="white-space:pre-line;">{{ genaiTopicInsight }}</p>
+        </div>
+      </div>
+
+      <!-- Team Dashboard Modal -->
+      <div class="genai-modal-backdrop" *ngIf="showGenaiTeamModal">
+        <div class="genai-modal-content">
+          <button class="close-btn" (click)="closeGenaiTeamModal()">✖</button>
+          <h3>{{ selectedGenaiTeam?.name }} Team Dashboard</h3>
+          <ul>
+            <li *ngFor="let cat of selectedGenaiTeam?.categories">
+              <b>{{ cat.name }}:</b> {{ cat.topics.join(', ') }}
+            </li>
+          </ul>
+          <p class="genai-dashboard-modal-insight">GenAI: Personalized recommendations and metrics for the {{ selectedGenaiTeam?.name }} team will appear here.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- GenAI Dashboard Modal -->
+    <div class="genai-dashboard-modal" *ngIf="showGenaiDashboardModal">
+      <div class="genai-dashboard-modal-content">
+        <button class="close-btn" (click)="closeGenaiDashboard()">✖</button>
+        <h3>{{ genaiDashboardTeam }} Team Dashboard</h3>
+        <ul>
+          <li *ngFor="let kpi of genaiDashboardKPIs">
+            <b>{{ kpi.name }}:</b> {{ kpi.value }} <span class="kpi-trend">({{ kpi.trend }})</span>
+          </li>
+        </ul>
+        <p class="genai-dashboard-modal-insight">{{ genaiDashboardInsight }}</p>
+      </div>
+    </div>
+
+    <!-- Dynamic KPI Builder Section -->
+    <section class="kpi-builder-section">
+      <h2>Dynamic KPI Builder <span class="ai-badge">ML Alerts</span></h2>
+      <div class="kpi-builder-ui">
+        <form class="kpi-form" (ngSubmit)="addKPI()">
+          <label for="kpi-name">KPI Name</label>
+          <input id="kpi-name" name="kpiName" [(ngModel)]="kpiName" required />
+          <label for="kpi-value">Current Value</label>
+          <input id="kpi-value" name="kpiValue" type="number" [(ngModel)]="kpiValue" required />
+          <label for="kpi-target">Target Value</label>
+          <input id="kpi-target" name="kpiTarget" type="number" [(ngModel)]="kpiTarget" required />
+          <label for="kpi-unit">Unit</label>
+          <input id="kpi-unit" name="kpiUnit" [(ngModel)]="kpiUnit" required />
+          <button class="ai-insight-btn" type="submit">Add KPI</button>
+        </form>
+        <div class="kpi-list">
+          <div class="kpi-item" *ngFor="let kpi of kpiList; let i = index">
+            <span class="kpi-name">{{ kpi.name }}</span>
+            <span class="kpi-value" [class.kpi-alert]="kpi.alert">{{ kpi.value }} {{ kpi.unit }}</span>
+            <span class="kpi-target">Target: {{ kpi.target }} {{ kpi.unit }}</span>
+            <span class="kpi-alert-msg" *ngIf="kpi.alert">⚠️ ML Alert: Underperformance/Non-compliance detected!</span>
+            <button class="remove-kpi-btn" (click)="removeKPI(i)">Remove</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- AI/ML GenAI Modal -->
+    <div class="ai-modal" *ngIf="aiModalOpen">
+      <div class="ai-modal-content">
+        <button class="close-btn" (click)="closeAiModal()">✖</button>
+        <h3>{{ aiModalTitle }} (AI/GenAI Insight)</h3>
+        <div class="ai-modal-body">
+          <p>{{ aiModalContent }}</p>
+        </div>
+      </div>
+    </div>
+
+
+<!-- ESG Graph Section -->
+<section class="esg-graph-section">
+  <h2>ESG Performance Overview</h2>
+  <div class="esg-graph-container" (click)="openGraphPopup()">
+    <svg width="420" height="180" viewBox="0 0 420 180">
+      <defs>
+        <linearGradient id="esgGraphGradient" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#388e3c" stop-opacity="0.8"/>
+          <stop offset="100%" stop-color="#a5d6a7" stop-opacity="0.3"/>
+        </linearGradient>
+      </defs>
+      <polyline points="0,150 60,120 120,100 180,80 240,60 300,90 360,70 420,50" style="fill:none;stroke:#388e3c;stroke-width:4" />
+      <polygon points="0,150 60,120 120,100 180,80 240,60 300,90 360,70 420,50 420,180 0,180" fill="url(#esgGraphGradient)" />
+      <circle cx="60" cy="120" r="6" fill="#388e3c" />
+      <circle cx="120" cy="100" r="6" fill="#388e3c" />
+      <circle cx="180" cy="80" r="6" fill="#388e3c" />
+      <circle cx="240" cy="60" r="6" fill="#388e3c" />
+      <circle cx="300" cy="90" r="6" fill="#388e3c" />
+      <circle cx="360" cy="70" r="6" fill="#388e3c" />
+      <circle cx="420" cy="50" r="6" fill="#388e3c" />
+    </svg>
+    <div class="esg-graph-label">Click graph for details</div>
+  </div>
+</section>
+
+<!-- ESG Graph Popup Modal -->
+<div class="esg-graph-popup" *ngIf="showGraphPopup">
+  <div class="esg-graph-popup-content">
+    <button class="esg-graph-popup-close" (click)="closeGraphPopup()">✖</button>
+    <h3>ESG Performance Details</h3>
+    <ul>
+      <li>2024 Q1: 87.2 (↑ 2.1%)</li>
+      <li>2023 Q4: 85.4 (↑ 1.8%)</li>
+      <li>2023 Q3: 83.9 (↑ 1.2%)</li>
+      <li>2023 Q2: 82.9 (↑ 2.0%)</li>
+      <li>2023 Q1: 81.2</li>
+    </ul>
+    <p class="esg-graph-popup-desc">The ESG score has shown a consistent upward trend, reflecting improvements in environmental, social, and governance practices across the organization.</p>
+  </div>
+</div>
+
+<footer class="dashboard-footer">
+  <span>© 2024 ESG Platform. All rights reserved.</span>
+</footer>
+
+<!-- Quick Actions Floating Button -->
+<button class="quick-actions-fab" title="Quick Actions">
+  <svg width="28" height="28" fill="none" viewBox="0 0 28 28"><circle cx="14" cy="14" r="14" fill="#2d2e83"/><path d="M14 8v12M8 14h12" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/></svg>
+</button>
+
+<!-- Feedback Floating Button -->
+<button class="feedback-fab" (click)="openFeedback()" title="Send Feedback">
+  <svg width="24" height="24" fill="none" viewBox="0 0 24 24"><path d="M2 21l1.5-5.5M21.5 21l-1.5-5.5M12 3v10m0 0l-3.5-3.5M12 13l3.5-3.5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</button>
+
+<!-- AI Chatbox Widget -->
+<div class="ai-chatbox" [class.open]="chatOpen">
+  <button class="chatbox-toggle" (click)="toggleChat()">
+    <span *ngIf="!chatOpen">
+      <svg width="28" height="28" fill="none" viewBox="0 0 28 28" style="vertical-align:middle;">
+        <circle cx="14" cy="14" r="14" fill="#6c63ff"/>
+        <ellipse cx="9.5" cy="13" rx="2.5" ry="3" fill="#fff"/>
+        <ellipse cx="18.5" cy="13" rx="2.5" ry="3" fill="#fff"/>
+        <ellipse cx="9.5" cy="13" rx="1.2" ry="1.5" fill="#6c63ff"/>
+        <ellipse cx="18.5" cy="13" rx="1.2" ry="1.5" fill="#6c63ff"/>
+        <rect x="8" y="19" width="12" height="2" rx="1" fill="#fff"/>
+      </svg>
+      <span style="margin-left:0.5rem;">AI Chat</span>
+    </span>
+    <span *ngIf="chatOpen">✖</span>
+  </button>
+  <div class="chatbox-window" *ngIf="chatOpen">
+    <div class="chatbox-header">ESG AI Assistant</div>
+    <div class="chatbox-messages">
+      <div *ngFor="let msg of chatHistory" [class.user]="msg.user" [class.ai]="!msg.user">
+        <span>{{ msg.text }}</span>
+      </div>
+    </div>
+    <form class="chatbox-input" (ngSubmit)="sendMessage()">
+      <input [(ngModel)]="chatInput" name="chatInput" placeholder="Type your question..." autocomplete="off" />
+      <button type="submit">Send</button>
+    </form>
+  </div>
+</div>
+
+<!-- Login Popup Modal -->
+<div class="login-popup-backdrop" *ngIf="showLoginPopup">
+  <div class="login-popup-modal large-login-modal">
+    <button class="login-popup-close" (click)="closeLoginPopup()">✖</button>
+    <div class="login-logo-row">
+      <span class="login-logo">🌱</span>
+      <span class="login-app-name">ESG Platform</span>
+    </div>
+    <h2>Login</h2>
+    <form (ngSubmit)="handleLogin()" autocomplete="off">
+      <label for="login-username">Username</label>
+      <input id="login-username" [(ngModel)]="loginUsername" name="loginUsername" required autocomplete="off" />
+      <label for="login-password">Password</label>
+      <input id="login-password" type="password" [(ngModel)]="loginPassword" name="loginPassword" required autocomplete="off" />
+      <label for="login-role">Role</label>
+      <select id="login-role" [(ngModel)]="loginRole" name="loginRole">
+        <option *ngFor="let role of roles" [value]="role">{{ role }}</option>
+      </select>
+      <button class="login-submit-btn" type="submit">Login</button>
+    </form>
+  </div>
+</div> 
+
+<!-- Materiality Matrix Modal -->
+<div class="ai-modal" *ngIf="materialityMatrixModalOpen">
+  <div class="ai-modal-content">
+    <button class="close-btn" (click)="closeMaterialityMatrixModal()">✖</button>
+    <h3>Materiality Matrix Builder (AI/ML Powered)</h3>
+    <div *ngIf="materialityMatrixData">
+      <p><strong>Generated:</strong> {{ materialityMatrixData.generated }}</p>
+      <table class="materiality-matrix-table">
+        <thead>
+          <tr>
+            <th>Issue</th>
+            <th>Stakeholder Sentiment</th>
+            <th>Regulatory Weight</th>
+            <th>Business Risk</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let issue of materialityMatrixData.issues">
+            <td>{{ issue.name }}</td>
+            <td>{{ (issue.sentiment * 100) | number:'1.0-0' }}%</td>
+            <td>{{ (issue.regulatoryWeight * 100) | number:'1.0-0' }}%</td>
+            <td>{{ (issue.businessRisk * 100) | number:'1.0-0' }}%</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="genai-recommend">AI ranks material issues based on regulatory weight and business risk for optimal ESG focus.</p>
+    </div>
+  </div>
+</div> 

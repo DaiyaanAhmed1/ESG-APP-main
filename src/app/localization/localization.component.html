@@ -1,0 +1,301 @@
+<div class="localization-container" [class.rtl]="isRTL" [class.dark-mode]="darkMode">
+  <!-- Sidebar -->
+  <aside class="sidebar" [class.collapsed]="sidebarCollapsed">
+    <div class="sidebar-header">
+      <h3>{{ getTranslatedText('LOCALIZATION.TITLE') }}</h3>
+      <button class="collapse-btn" (click)="toggleSidebar()">
+        <span>{{ getTranslatedText('NAVIGATION.COLLAPSE') }}</span>
+      </button>
+    </div>
+    
+    <nav class="sidebar-nav">
+      <a routerLink="/dashboard" class="nav-item">
+        <span class="nav-icon">📊</span>
+        <span class="nav-text">{{ getTranslatedText('NAVIGATION.DASHBOARD') }}</span>
+      </a>
+      <a routerLink="/team-management" class="nav-item">
+        <span class="nav-icon">👥</span>
+        <span class="nav-text">{{ getTranslatedText('NAVIGATION.TEAM_MANAGEMENT') }}</span>
+      </a>
+      <a routerLink="/leads" class="nav-item">
+        <span class="nav-icon">🎯</span>
+        <span class="nav-text">{{ getTranslatedText('NAVIGATION.LEADS') }}</span>
+      </a>
+      <a routerLink="/resource-management" class="nav-item">
+        <span class="nav-icon">📦</span>
+        <span class="nav-text">{{ getTranslatedText('NAVIGATION.RESOURCE_MANAGEMENT') }}</span>
+      </a>
+      <a routerLink="/report-analytics" class="nav-item">
+        <span class="nav-icon">📈</span>
+        <span class="nav-text">{{ getTranslatedText('NAVIGATION.REPORT_ANALYTICS') }}</span>
+      </a>
+      <a routerLink="/training-development" class="nav-item">
+        <span class="nav-icon">🎓</span>
+        <span class="nav-text">{{ getTranslatedText('NAVIGATION.TRAINING_DEVELOP') }}</span>
+      </a>
+      <a routerLink="/help-support" class="nav-item">
+        <span class="nav-icon">❓</span>
+        <span class="nav-text">{{ getTranslatedText('NAVIGATION.HELP_SUPPORT') }}</span>
+      </a>
+      <a routerLink="/security" class="nav-item">
+        <span class="nav-icon">🔒</span>
+        <span class="nav-text">{{ getTranslatedText('NAVIGATION.SECURITY') }}</span>
+      </a>
+      <a routerLink="/ux" class="nav-item">
+        <span class="nav-icon">🎨</span>
+        <span class="nav-text">{{ getTranslatedText('NAVIGATION.UX') }}</span>
+      </a>
+      <a routerLink="/localization" class="nav-item active">
+        <span class="nav-icon">🌍</span>
+        <span class="nav-text">{{ getTranslatedText('NAVIGATION.LOCALIZATION') }}</span>
+      </a>
+    </nav>
+    
+    <div class="sidebar-footer">
+      <app-unified-language-toggle></app-unified-language-toggle>
+      <button class="logout-btn" (click)="logout()">
+        <span class="nav-icon">🚪</span>
+        <span class="nav-text">{{ getTranslatedText('NAVIGATION.LOGOUT') }}</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Header -->
+    <header class="content-header">
+      <div class="header-left">
+        <h1>{{ getTranslatedText('LOCALIZATION.TITLE') }}</h1>
+        <p>{{ getTranslatedText('LOCALIZATION.SUBTITLE') }}</p>
+      </div>
+      <div class="header-actions">
+        <button class="action-btn" (click)="refreshLocalizationData()">
+          <span class="icon">🔄</span>
+          {{ getTranslatedText('LOCALIZATION.REFRESH') }}
+        </button>
+        <button class="action-btn" (click)="exportLocalizationData()">
+          <span class="icon">📤</span>
+          {{ getTranslatedText('LOCALIZATION.EXPORT') }}
+        </button>
+        <button class="theme-toggle" (click)="toggleDarkMode()">
+          <span class="icon">🌙</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Localization Overview -->
+    <section class="overview-section">
+      <h2>{{ getTranslatedText('LOCALIZATION.OVERVIEW') }}</h2>
+      <div class="metrics-grid">
+        <div class="metric-card" *ngFor="let metric of localizationMetrics">
+          <div class="metric-header">
+            <h3>{{ metric.metric }}</h3>
+            <span class="trend" [class]="metric.trend">
+              {{ metric.change }}
+            </span>
+          </div>
+          <div class="metric-value">{{ metric.value }}</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Supported Languages -->
+    <section class="languages-section">
+      <div class="section-header">
+        <h2>{{ getTranslatedText('LOCALIZATION.SUPPORTED_LANGUAGES') }}</h2>
+        <button class="add-btn" (click)="addLanguage()">
+          <span class="icon">➕</span>
+          {{ getTranslatedText('LOCALIZATION.ADD_LANGUAGE') }}
+        </button>
+      </div>
+      
+      <div class="languages-grid">
+        <div class="language-card" *ngFor="let language of supportedLanguages">
+          <div class="language-header">
+            <div class="language-info">
+              <span class="flag">{{ language.flag }}</span>
+              <div class="language-details">
+                <h4>{{ language.name }}</h4>
+                <p>{{ language.nativeName }}</p>
+              </div>
+            </div>
+            <div class="language-status" [style.background-color]="getStatusColor(language.status)">
+              {{ getTranslatedText('LOCALIZATION.' + language.status.toUpperCase()) }}
+            </div>
+          </div>
+          
+          <div class="language-progress">
+            <div class="progress-bar">
+              <div class="progress-fill" [style.width.%]="language.completion"></div>
+            </div>
+            <span class="progress-text">{{ language.completion }}% {{ getTranslatedText('LOCALIZATION.COMPLETE') }}</span>
+          </div>
+          
+          <div class="language-footer">
+            <span class="last-updated">{{ getTranslatedText('LOCALIZATION.LAST_UPDATED') }}: {{ language.lastUpdated }}</span>
+            <button class="remove-btn" (click)="removeLanguage(language)">
+              {{ getTranslatedText('LOCALIZATION.REMOVE_LANGUAGE') }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Supported Regions -->
+    <section class="regions-section">
+      <div class="section-header">
+        <h2>{{ getTranslatedText('LOCALIZATION.SUPPORTED_REGIONS') }}</h2>
+        <button class="add-btn" (click)="addRegion()">
+          <span class="icon">➕</span>
+          {{ getTranslatedText('LOCALIZATION.ADD_REGION') }}
+        </button>
+      </div>
+      
+      <div class="regions-grid">
+        <div class="region-card" *ngFor="let region of supportedRegions">
+          <div class="region-header">
+            <div class="region-info">
+              <span class="flag">{{ region.flag }}</span>
+              <div class="region-details">
+                <h4>{{ region.name }}</h4>
+                <p>{{ region.code }}</p>
+              </div>
+            </div>
+            <div class="region-status" [style.background-color]="getStatusColor(region.status)">
+              {{ getTranslatedText('LOCALIZATION.' + region.status.toUpperCase()) }}
+            </div>
+          </div>
+          
+          <div class="region-details-grid">
+            <div class="detail-item">
+              <span class="label">{{ getTranslatedText('LOCALIZATION.LANGUAGES') }}:</span>
+              <span class="value">{{ region.languages.join(', ') }}</span>
+            </div>
+            <div class="detail-item">
+              <span class="label">{{ getTranslatedText('LOCALIZATION.TIME_FORMATS') }}:</span>
+              <span class="value">{{ region.timezone }}</span>
+            </div>
+            <div class="detail-item">
+              <span class="label">{{ getTranslatedText('LOCALIZATION.CURRENCY_FORMATS') }}:</span>
+              <span class="value">{{ region.currency }}</span>
+            </div>
+            <div class="detail-item">
+              <span class="label">{{ getTranslatedText('LOCALIZATION.DATE_FORMATS') }}:</span>
+              <span class="value">{{ region.dateFormat }}</span>
+            </div>
+          </div>
+          
+          <div class="region-footer">
+            <button class="remove-btn" (click)="removeRegion(region)">
+              {{ getTranslatedText('LOCALIZATION.REMOVE_REGION') }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Translation Projects -->
+    <section class="projects-section">
+      <div class="section-header">
+        <h2>{{ getTranslatedText('LOCALIZATION.TRANSLATION_STATUS') }}</h2>
+        <button class="add-btn">
+          <span class="icon">➕</span>
+          {{ getTranslatedText('LOCALIZATION.TRANSLATE_CONTENT') }}
+        </button>
+      </div>
+      
+      <div class="projects-table">
+        <div class="table-header">
+          <div class="header-cell">{{ getTranslatedText('LOCALIZATION.DESCRIPTION') }}</div>
+          <div class="header-cell">{{ getTranslatedText('LOCALIZATION.LANGUAGES') }}</div>
+          <div class="header-cell">{{ getTranslatedText('LOCALIZATION.STATUS') }}</div>
+          <div class="header-cell">{{ getTranslatedText('LOCALIZATION.PROGRESS') }}</div>
+          <div class="header-cell">{{ getTranslatedText('LOCALIZATION.ASSIGNED_TO') }}</div>
+          <div class="header-cell">{{ getTranslatedText('LOCALIZATION.ACTIONS') }}</div>
+        </div>
+        
+        <div class="table-row" *ngFor="let project of translationProjects">
+          <div class="table-cell">
+            <h4>{{ project.name }}</h4>
+            <span class="priority" [style.color]="getPriorityColor(project.priority)">
+              {{ getTranslatedText('LOCALIZATION.' + project.priority.toUpperCase()) }}
+            </span>
+          </div>
+          <div class="table-cell">{{ project.language }}</div>
+          <div class="table-cell">
+            <span class="status-badge" [style.background-color]="getStatusColor(project.status)">
+              {{ getTranslatedText('LOCALIZATION.' + project.status.toUpperCase()) }}
+            </span>
+          </div>
+          <div class="table-cell">
+            <div class="progress-bar">
+              <div class="progress-fill" [style.width.%]="project.progress"></div>
+            </div>
+            <span class="progress-text">{{ project.progress }}%</span>
+          </div>
+          <div class="table-cell">{{ project.assignedTo }}</div>
+          <div class="table-cell">
+            <button class="view-btn" (click)="viewTranslationDetails(project)">
+              {{ getTranslatedText('LOCALIZATION.VIEW_DETAILS') }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cultural Adaptation -->
+    <section class="cultural-section">
+      <div class="section-header">
+        <h2>{{ getTranslatedText('LOCALIZATION.CULTURAL_ADAPTATION') }}</h2>
+        <button class="add-btn">
+          <span class="icon">⚙️</span>
+          {{ getTranslatedText('LOCALIZATION.CONFIGURE') }}
+        </button>
+      </div>
+      
+      <div class="cultural-grid">
+        <div class="cultural-card" *ngFor="let aspect of culturalAdaptation">
+          <div class="cultural-header">
+            <h4>{{ aspect.aspect }}</h4>
+            <div class="status-badge" [style.background-color]="getStatusColor(aspect.status)">
+              {{ aspect.status }}
+            </div>
+          </div>
+          <div class="cultural-footer">
+            <span class="last-updated">{{ getTranslatedText('LOCALIZATION.LAST_UPDATED') }}: {{ aspect.lastUpdated }}</span>
+            <button class="update-btn" (click)="updateCulturalAspect(aspect)">
+              {{ getTranslatedText('LOCALIZATION.UPDATE') }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quick Actions -->
+    <section class="actions-section">
+      <h2>{{ getTranslatedText('LOCALIZATION.ACTIONS') }}</h2>
+      <div class="actions-grid">
+        <div class="action-card" (click)="backupTranslations()">
+          <div class="action-icon">💾</div>
+          <h3>{{ getTranslatedText('LOCALIZATION.BACKUP_TRANSLATIONS') }}</h3>
+          <p>{{ getTranslatedText('LOCALIZATION.DESCRIPTION') }}</p>
+        </div>
+        <div class="action-card" (click)="restoreTranslations()">
+          <div class="action-icon">📥</div>
+          <h3>{{ getTranslatedText('LOCALIZATION.RESTORE_TRANSLATIONS') }}</h3>
+          <p>{{ getTranslatedText('LOCALIZATION.DESCRIPTION') }}</p>
+        </div>
+        <div class="action-card">
+          <div class="action-icon">🌐</div>
+          <h3>{{ getTranslatedText('LOCALIZATION.MANAGE_CULTURES') }}</h3>
+          <p>{{ getTranslatedText('LOCALIZATION.DESCRIPTION') }}</p>
+        </div>
+        <div class="action-card">
+          <div class="action-icon">⚙️</div>
+          <h3>{{ getTranslatedText('LOCALIZATION.SET_DEFAULTS') }}</h3>
+          <p>{{ getTranslatedText('LOCALIZATION.DESCRIPTION') }}</p>
+        </div>
+      </div>
+    </section>
+  </main>
+</div> 

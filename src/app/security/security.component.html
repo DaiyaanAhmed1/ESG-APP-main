@@ -1,0 +1,212 @@
+<div class="edash-root" [class.dark-mode]="darkMode" [class.sidebar-collapsed]="sidebarCollapsed">
+  <!-- Sidebar -->
+  <aside class="edash-sidenav" [class.collapsed]="sidebarCollapsed" [class.dark-mode]="darkMode">
+    <div class="edash-sidenav-header">
+      <img src="https://lms-frontend-resources.s3.ap-south-1.amazonaws.com/marlnLogo.jpeg" alt="Logo" class="edash-logo" />
+      <span *ngIf="!sidebarCollapsed" class="edash-title">Security</span>
+    </div>
+    <nav class="edash-nav">
+      <a routerLink="/dashboard" class="edash-nav-link" data-title="Dashboard">
+        <span class="edash-nav-icon">📊</span>
+        <span *ngIf="!sidebarCollapsed">{{ getTranslatedText('NAVIGATION.DASHBOARD') }}</span>
+      </a>
+      <a routerLink="/environmental" class="edash-nav-link" data-title="Environmental">
+        <span class="edash-nav-icon">🌱</span>
+        <span *ngIf="!sidebarCollapsed">Environmental</span>
+      </a>
+      <a routerLink="/social" class="edash-nav-link" data-title="Social">
+        <span class="edash-nav-icon">🤝</span>
+        <span *ngIf="!sidebarCollapsed">Social</span>
+      </a>
+      <a routerLink="/governance" class="edash-nav-link" data-title="Governance">
+        <span class="edash-nav-icon">🏛️</span>
+        <span *ngIf="!sidebarCollapsed">Governance</span>
+      </a>
+      <a routerLink="/reporting" class="edash-nav-link" data-title="Reporting">
+        <span class="edash-nav-icon">📈</span>
+        <span *ngIf="!sidebarCollapsed">{{ getTranslatedText('NAVIGATION.REPORT_ANALYTICS') }}</span>
+      </a>
+      <a routerLink="/integrations" class="edash-nav-link" data-title="Integrations">
+        <span class="edash-nav-icon">🔗</span>
+        <span *ngIf="!sidebarCollapsed">{{ getTranslatedText('NAVIGATION.RESOURCE_MANAGEMENT') }}</span>
+      </a>
+      <a routerLink="/compliance" class="edash-nav-link" data-title="Compliance">
+        <span class="edash-nav-icon">⚖️</span>
+        <span *ngIf="!sidebarCollapsed">{{ getTranslatedText('SECURITY.COMPLIANCE') }}</span>
+      </a>
+      <a routerLink="/security" class="edash-nav-link active" data-title="Security">
+        <span class="edash-nav-icon">🔒</span>
+        <span *ngIf="!sidebarCollapsed">{{ getTranslatedText('NAVIGATION.SECURITY') }}</span>
+      </a>
+      <div class="edash-nav-actions">
+        <button class="edash-logout" (click)="logout()" aria-label="Logout" data-title="Logout">
+          <span class="icon">🚪</span>
+          <span *ngIf="!sidebarCollapsed">{{ getTranslatedText('NAVIGATION.LOGOUT') }}</span>
+        </button>
+        <button class="edash-sidenav-toggle" (click)="toggleSidebar()" aria-label="Toggle sidenav" data-title="Collapse">
+          <span class="icon">⬅️</span>
+          <span *ngIf="!sidebarCollapsed">{{ getTranslatedText('NAVIGATION.COLLAPSE') }}</span>
+        </button>
+        <button class="edash-dark-toggle" (click)="toggleDarkMode()" aria-label="Toggle dark mode" data-title="Light Mode">
+          <span class="icon">☀️</span>
+          <span *ngIf="!sidebarCollapsed">{{ getTranslatedText('NAVIGATION.LIGHT_MODE') }}</span>
+        </button>
+        <app-unified-language-toggle></app-unified-language-toggle>
+      </div>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="edash-main" [class.sidebar-collapsed]="sidebarCollapsed">
+    <div class="edash-content">
+      <!-- Header -->
+      <div class="security-header">
+        <div class="header-content">
+          <h1>{{ getTranslatedText('SECURITY.TITLE') }}</h1>
+          <p>{{ getTranslatedText('SECURITY.SUBTITLE') }}</p>
+        </div>
+        <div class="header-actions">
+          <button class="action-btn refresh-btn" (click)="refreshSecurityData()">
+            <span class="icon">🔄</span>
+            {{ getTranslatedText('SECURITY.REFRESH') }}
+          </button>
+          <button class="action-btn export-btn" (click)="exportSecurityReport()">
+            <span class="icon">📊</span>
+            {{ getTranslatedText('SECURITY.EXPORT') }}
+          </button>
+        </div>
+      </div>
+
+      <!-- Security Overview -->
+      <div class="security-overview">
+        <h2>{{ getTranslatedText('SECURITY.OVERVIEW') }}</h2>
+        <div class="metrics-grid">
+          <div *ngFor="let metric of securityMetrics" class="metric-card" [class]="'status-' + metric.status">
+            <div class="metric-icon">{{ metric.icon }}</div>
+            <div class="metric-content">
+              <h3>{{ getTranslatedText('SECURITY.' + metric.id.toUpperCase() + '_COUNT') }}</h3>
+              <div class="metric-value">{{ metric.value }}</div>
+              <p class="metric-description">{{ metric.description }}</p>
+              <div class="metric-status" [style.background-color]="getStatusColor(metric.status)">
+                {{ getTranslatedText('SECURITY.' + metric.status.toUpperCase()) }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Security Incidents -->
+      <div class="security-section">
+        <div class="section-header">
+          <h2>{{ getTranslatedText('SECURITY.INCIDENTS') }}</h2>
+          <button class="view-all-btn">{{ getTranslatedText('SECURITY.VIEW_DETAILS') }}</button>
+        </div>
+        <div class="incidents-list">
+          <div *ngFor="let incident of securityIncidents" class="incident-card">
+            <div class="incident-header">
+              <div class="incident-severity" [style.background-color]="getSeverityColor(incident.severity)">
+                {{ incident.severity | titlecase }}
+              </div>
+              <div class="incident-status" [style.background-color]="getStatusColor(incident.status)">
+                {{ getTranslatedText('SECURITY.' + incident.status.toUpperCase()) }}
+              </div>
+            </div>
+            <h3 class="incident-title">{{ incident.title }}</h3>
+            <p class="incident-description">{{ incident.description }}</p>
+            <div class="incident-meta">
+              <span class="incident-date">{{ getTranslatedText('SECURITY.CREATED_DATE') }}: {{ incident.createdAt | date:'short' }}</span>
+              <span *ngIf="incident.assignedTo" class="incident-assigned">{{ getTranslatedText('SECURITY.ASSIGNED_TO') }}: {{ incident.assignedTo }}</span>
+            </div>
+            <button class="incident-details-btn" (click)="viewIncidentDetails(incident)">
+              {{ getTranslatedText('SECURITY.VIEW_DETAILS') }}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Security Policies -->
+      <div class="security-section">
+        <div class="section-header">
+          <h2>{{ getTranslatedText('SECURITY.POLICIES') }}</h2>
+          <button class="configure-btn">{{ getTranslatedText('SECURITY.CONFIGURE') }}</button>
+        </div>
+        <div class="policies-grid">
+          <div *ngFor="let policy of securityPolicies" class="policy-card">
+            <div class="policy-header">
+              <h3>{{ policy.name }}</h3>
+              <div class="policy-status" [style.background-color]="getStatusColor('secure')">
+                {{ getTranslatedText('SECURITY.ACTIVE') }}
+              </div>
+            </div>
+            <div class="policy-meta">
+              <span>{{ getTranslatedText('SECURITY.LAST_UPDATED') }}: {{ policy.lastUpdated }}</span>
+            </div>
+            <button class="policy-update-btn" (click)="updateSecurityPolicy(policy)">
+              {{ getTranslatedText('SECURITY.UPDATE') }}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Security Training -->
+      <div class="security-section">
+        <div class="section-header">
+          <h2>{{ getTranslatedText('SECURITY.TRAINING') }}</h2>
+          <button class="view-all-btn">{{ getTranslatedText('SECURITY.VIEW_DETAILS') }}</button>
+        </div>
+        <div class="training-grid">
+          <div *ngFor="let training of securityTraining" class="training-card">
+            <div class="training-header">
+              <h3>{{ training.title }}</h3>
+              <div class="training-completion">{{ training.completion }}</div>
+            </div>
+            <div class="training-progress">
+              <div class="progress-bar">
+                <div class="progress-fill" [style.width]="training.completion"></div>
+              </div>
+            </div>
+            <div class="training-meta">
+              <span>{{ getTranslatedText('SECURITY.NEXT_REVIEW') }}: {{ training.dueDate }}</span>
+            </div>
+            <button class="training-details-btn" (click)="viewTrainingProgress(training)">
+              {{ getTranslatedText('SECURITY.VIEW_DETAILS') }}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="security-section">
+        <div class="section-header">
+          <h2>{{ getTranslatedText('SECURITY.ACTIONS') }}</h2>
+        </div>
+        <div class="quick-actions-grid">
+          <div class="action-card">
+            <div class="action-icon">👥</div>
+            <h3>{{ getTranslatedText('SECURITY.USERS') }}</h3>
+            <p>{{ getTranslatedText('SECURITY.DESCRIPTION') }}</p>
+            <button class="action-btn">{{ getTranslatedText('SECURITY.VIEW_DETAILS') }}</button>
+          </div>
+          <div class="action-card">
+            <div class="action-icon">🔐</div>
+            <h3>{{ getTranslatedText('SECURITY.ACCESS_CONTROL') }}</h3>
+            <p>{{ getTranslatedText('SECURITY.DESCRIPTION') }}</p>
+            <button class="action-btn">{{ getTranslatedText('SECURITY.CONFIGURE') }}</button>
+          </div>
+          <div class="action-card">
+            <div class="action-icon">📋</div>
+            <h3>{{ getTranslatedText('SECURITY.REPORTS') }}</h3>
+            <p>{{ getTranslatedText('SECURITY.DESCRIPTION') }}</p>
+            <button class="action-btn">{{ getTranslatedText('SECURITY.VIEW_DETAILS') }}</button>
+          </div>
+          <div class="action-card">
+            <div class="action-icon">📊</div>
+            <h3>{{ getTranslatedText('SECURITY.LOGS') }}</h3>
+            <p>{{ getTranslatedText('SECURITY.DESCRIPTION') }}</p>
+            <button class="action-btn">{{ getTranslatedText('SECURITY.VIEW_DETAILS') }}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div> 

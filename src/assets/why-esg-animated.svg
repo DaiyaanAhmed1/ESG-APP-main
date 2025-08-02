@@ -1,0 +1,33 @@
+<svg width="320" height="220" viewBox="0 0 320 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <g>
+    <ellipse cx="160" cy="200" rx="80" ry="18" fill="#e0f7fa"/>
+    <g>
+      <rect x="150" y="120" width="20" height="80" rx="10" fill="#388e3c">
+        <animate attributeName="y" values="120;110;120" dur="2s" repeatCount="indefinite"/>
+      </rect>
+      <ellipse cx="160" cy="120" rx="32" ry="60" fill="#81c784">
+        <animate attributeName="rx" values="32;36;32" dur="2s" repeatCount="indefinite"/>
+      </ellipse>
+      <ellipse cx="160" cy="120" rx="18" ry="36" fill="#43a047">
+        <animate attributeName="ry" values="36;40;36" dur="2s" repeatCount="indefinite"/>
+      </ellipse>
+      <ellipse cx="160" cy="80" rx="12" ry="24" fill="#a5d6a7">
+        <animate attributeName="cy" values="80;70;80" dur="2s" repeatCount="indefinite"/>
+      </ellipse>
+    </g>
+    <g>
+      <circle cx="120" cy="60" r="6" fill="#ffd600">
+        <animate attributeName="cy" values="60;54;60" dur="1.5s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="200" cy="50" r="4" fill="#ffd600">
+        <animate attributeName="cy" values="50;44;50" dur="1.7s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="180" cy="30" r="3" fill="#ffd600">
+        <animate attributeName="cy" values="30;24;30" dur="1.3s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="140" cy="40" r="2.5" fill="#ffd600">
+        <animate attributeName="cy" values="40;34;40" dur="1.9s" repeatCount="indefinite"/>
+      </circle>
+    </g>
+  </g>
+</svg> 

@@ -1,0 +1,366 @@
+<div class="governance-dashboard" [class.dark-mode]="darkMode" [class.rtl]="isRTL">
+  <div class="gdash-overview">
+    <div class="gdash-header-row">
+      <div>
+        <h2>{{ getTranslatedText('GOVERNANCE.TITLE') }}</h2>
+        <p>{{ getTranslatedText('GOVERNANCE.SUBTITLE') }}</p>
+      </div>
+      <div class="gdash-actions">
+        <app-unified-language-toggle></app-unified-language-toggle>
+        <button class="gdash-btn gdash-btn-primary">New Campaign Launch</button>
+        <button class="gdash-btn gdash-btn-secondary">Export Report</button>
+      </div>
+    </div>
+    <div class="gdash-stats-row">
+      <div class="gdash-stat-card gdash-stat-blue">
+        <span class="gdash-stat-icon">🎯</span>
+        <span class="gdash-stat-value">2240</span>
+        <span class="gdash-stat-label">Incidents due to No Code of Ethics</span>
+      </div>
+      <div class="gdash-stat-card gdash-stat-green">
+        <span class="gdash-stat-icon">📈</span>
+        <span class="gdash-stat-value">32%</span>
+        <span class="gdash-stat-label">Board Diversity (%) Gender, age, nationality representation</span>
+      </div>
+      <div class="gdash-stat-card gdash-stat-purple">
+        <span class="gdash-stat-icon">📢</span>
+        <span class="gdash-stat-value">108</span>
+        <span class="gdash-stat-label">Cybersecurity Incidents</span>
+      </div>
+      <div class="gdash-stat-card gdash-stat-yellow">
+        <span class="gdash-stat-icon">👥</span>
+        <span class="gdash-stat-value">65</span>
+        <span class="gdash-stat-label">Anti-corruption Training Coverage (%)</span>
+      </div>
+      <div class="gdash-stat-card gdash-stat-pink">
+        <span class="gdash-stat-icon">💰</span>
+        <span class="gdash-stat-value">85%</span>
+        <span class="gdash-stat-label">ROI</span>
+      </div>
+    </div>
+  </div>
+  <!-- Side Navigation -->
+  <aside class="gdash-sidenav" [class.collapsed]="sidebarCollapsed">
+    <div class="gdash-sidenav-header">
+      <div class="gdash-logo">MARLN</div>
+      <div class="gdash-user-title">Governance Lead</div>
+    </div>
+    <nav class="gdash-nav">
+      <a routerLink="/environmental-dashboard" class="gdash-nav-link"><span class="gdash-nav-icon">🌱</span><span *ngIf="!sidebarCollapsed">{{ getTranslatedText('NAVIGATION.DASHBOARD') }}</span></a>
+      <a routerLink="/social-dashboard" class="gdash-nav-link"><span class="gdash-nav-icon">🤝</span><span *ngIf="!sidebarCollapsed">{{ getTranslatedText('NAVIGATION.DASHBOARD') }}</span></a>
+      <a routerLink="/governance" class="gdash-nav-link active"><span class="gdash-nav-icon">🏛️</span><span *ngIf="!sidebarCollapsed">{{ getTranslatedText('NAVIGATION.GOVERNANCE') }}</span></a>
+      <a routerLink="/materiality" class="gdash-nav-link"><span class="gdash-nav-icon">📊</span><span *ngIf="!sidebarCollapsed">{{ getTranslatedText('NAVIGATION.COMPLIANCE') }}</span></a>
+      <a routerLink="/team" class="gdash-nav-link"><span class="gdash-nav-icon">👥</span><span *ngIf="!sidebarCollapsed">{{ getTranslatedText('NAVIGATION.BOARD') }}</span></a>
+      <a routerLink="/initiatives" class="gdash-nav-link"><span class="gdash-nav-icon">📣</span><span *ngIf="!sidebarCollapsed">{{ getTranslatedText('NAVIGATION.COMPLIANCE') }}</span></a>
+      <a routerLink="/reporting" class="gdash-nav-link"><span class="gdash-nav-icon">📈</span><span *ngIf="!sidebarCollapsed">{{ getTranslatedText('NAVIGATION.COMPLIANCE') }}</span></a>
+      <a routerLink="/communication" class="gdash-nav-link"><span class="gdash-nav-icon">💬</span><span *ngIf="!sidebarCollapsed">{{ getTranslatedText('NAVIGATION.COMPLIANCE') }}</span></a>
+      <a routerLink="/training" class="gdash-nav-link"><span class="gdash-nav-icon">🎓</span><span *ngIf="!sidebarCollapsed">{{ getTranslatedText('NAVIGATION.COMPLIANCE') }}</span></a>
+      <a routerLink="/workspace" class="gdash-nav-link"><span class="gdash-nav-icon">📁</span><span *ngIf="!sidebarCollapsed">{{ getTranslatedText('NAVIGATION.COMPLIANCE') }}</span></a>
+    </nav>
+    <div class="gdash-sidenav-footer">
+      <button class="gdash-sidenav-toggle" (click)="sidebarCollapsed = !sidebarCollapsed">{{ sidebarCollapsed ? '→' : '←' }}</button>
+      <button class="gdash-dark-toggle" (click)="toggleDarkMode()">{{ darkMode ? '☀️' : '🌙' }}<span *ngIf="!sidebarCollapsed"> {{ darkMode ? 'Light' : 'Dark' }} Mode</span></button>
+      <button class="gdash-logout" *ngIf="!sidebarCollapsed">{{ getTranslatedText('NAVIGATION.LOGOUT') }}</button>
+    </div>
+  </aside>
+  <!-- Main Content -->
+  <div class="gov-content">
+    <main class="gov-main">
+    <!-- Board Composition & Independence Analysis -->
+    <section class="gov-section board-section">
+      <div class="section-header">
+        <h2>👥 {{ getTranslatedText('GOVERNANCE.BOARD_COMPOSITION') }}</h2>
+        <button class="refresh-btn" (click)="refreshBoardData()">🔄 Refresh</button>
+      </div>
+      <div class="board-grid">
+        <div class="board-card">
+          <h3>Board Diversity</h3>
+          <div class="diversity-chart">
+            <div class="chart-item">
+              <span class="chart-label">Gender</span>
+              <div class="chart-bar">
+                <div class="bar-fill" [style.width.%]="60"></div>
+              </div>
+              <span class="chart-value">60% Female</span>
+            </div>
+            <div class="chart-item">
+              <span class="chart-label">Age Range</span>
+              <div class="chart-bar">
+                <div class="bar-fill" [style.width.%]="75"></div>
+              </div>
+              <span class="chart-value">35-65 years</span>
+            </div>
+            <div class="chart-item">
+              <span class="chart-label">Independence</span>
+              <div class="chart-bar">
+                <div class="bar-fill" [style.width.%]="85"></div>
+              </div>
+              <span class="chart-value">85% Independent</span>
+            </div>
+          </div>
+        </div>
+        <div class="board-card">
+          <h3>Board Members</h3>
+          <div class="board-members">
+            <div class="member-item" *ngFor="let member of boardMembers">
+              <div class="member-avatar">{{member.avatar}}</div>
+              <div class="member-info">
+                <div class="member-name">{{member.name}}</div>
+                <div class="member-role">{{member.role}}</div>
+                <div class="member-status" [class]="member.status">{{member.status}}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Executive Compensation Tracking -->
+    <section class="gov-section compensation-section">
+      <div class="section-header">
+        <h2>💰 Executive Compensation Tracking</h2>
+        <button class="add-btn" (click)="addCompensation()">➕ Add</button>
+      </div>
+      <div class="compensation-grid">
+        <div class="compensation-card">
+          <h3>CEO Compensation</h3>
+          <div class="comp-details">
+            <div class="comp-item">
+              <span class="comp-label">Base Salary</span>
+              <span class="comp-value">$850,000</span>
+            </div>
+            <div class="comp-item">
+              <span class="comp-label">Performance Bonus</span>
+              <span class="comp-value">$425,000</span>
+            </div>
+            <div class="comp-item">
+              <span class="comp-label">ESG-linked Bonus</span>
+              <span class="comp-value">$127,500</span>
+            </div>
+            <div class="comp-item total">
+              <span class="comp-label">Total</span>
+              <span class="comp-value">$1,402,500</span>
+            </div>
+          </div>
+        </div>
+        <div class="compensation-card">
+          <h3>ESG Performance Metrics</h3>
+          <div class="esg-metrics">
+            <div class="metric-item">
+              <span class="metric-label">Carbon Reduction</span>
+              <div class="metric-progress">
+                <div class="progress-fill" [style.width.%]="85"></div>
+              </div>
+              <span class="metric-value">85%</span>
+            </div>
+            <div class="metric-item">
+              <span class="metric-label">Diversity Target</span>
+              <div class="metric-progress">
+                <div class="progress-fill" [style.width.%]="70"></div>
+              </div>
+              <span class="metric-value">70%</span>
+            </div>
+            <div class="metric-item">
+              <span class="metric-label">Compliance Score</span>
+              <div class="metric-progress">
+                <div class="progress-fill" [style.width.%]="98"></div>
+              </div>
+              <span class="metric-value">98%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Anti-Corruption & Risk Management -->
+    <section class="gov-section risk-section">
+      <div class="section-header">
+        <h2>🛡️ Anti-Corruption & Risk Management</h2>
+        <button class="alert-btn" (click)="showRiskAlerts()">🚨 Alerts</button>
+      </div>
+      <div class="risk-grid">
+        <div class="risk-card">
+          <h3>Risk Assessment</h3>
+          <div class="risk-matrix">
+            <div class="risk-item high" *ngFor="let risk of highRisks">
+              <div class="risk-header">
+                <span class="risk-title">{{risk.title}}</span>
+                <span class="risk-level">{{risk.level}}</span>
+              </div>
+              <p class="risk-desc">{{risk.description}}</p>
+              <div class="risk-actions">
+                <button class="action-btn">Mitigate</button>
+                <button class="action-btn">Monitor</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="risk-card">
+          <h3>Anti-Corruption Measures</h3>
+          <div class="corruption-measures">
+            <div class="measure-item" *ngFor="let measure of antiCorruptionMeasures">
+              <div class="measure-icon">{{measure.icon}}</div>
+              <div class="measure-info">
+                <div class="measure-title">{{measure.title}}</div>
+                <div class="measure-status" [class]="measure.status">{{measure.status}}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Policy Management -->
+    <section class="gov-section policy-section">
+      <div class="section-header">
+        <h2>📋 Policy Management</h2>
+        <button class="add-btn" (click)="addPolicy()">➕ New Policy</button>
+      </div>
+      <div class="policy-grid">
+        <div class="policy-card" *ngFor="let policy of policies">
+          <div class="policy-header">
+            <h3>{{policy.title}}</h3>
+            <span class="policy-status" [class]="policy.status">{{policy.status}}</span>
+          </div>
+          <p class="policy-desc">{{policy.description}}</p>
+          <div class="policy-meta">
+            <span class="meta-item">📅 {{policy.lastUpdated}}</span>
+            <span class="meta-item">👤 {{policy.owner}}</span>
+            <span class="meta-item">📄 {{policy.version}}</span>
+          </div>
+          <div class="policy-actions">
+            <button class="action-btn">View</button>
+            <button class="action-btn">Edit</button>
+            <button class="action-btn">Archive</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Audit Trail & Documentation -->
+    <section class="gov-section audit-section">
+      <div class="section-header">
+        <h2>📚 Audit Trail & Documentation Archive</h2>
+        <button class="export-btn" (click)="exportAuditTrail()">📤 Export</button>
+      </div>
+      <div class="audit-grid">
+        <div class="audit-card">
+          <h3>Recent Activities</h3>
+          <div class="audit-timeline">
+            <div class="timeline-item" *ngFor="let activity of auditActivities">
+              <div class="timeline-icon">{{activity.icon}}</div>
+              <div class="timeline-content">
+                <div class="timeline-title">{{activity.title}}</div>
+                <div class="timeline-desc">{{activity.description}}</div>
+                <div class="timeline-meta">
+                  <span class="meta-time">{{activity.time}}</span>
+                  <span class="meta-user">{{activity.user}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="audit-card">
+          <h3>Document Archive</h3>
+          <div class="document-list">
+            <div class="doc-item" *ngFor="let doc of documents">
+              <div class="doc-icon">{{doc.icon}}</div>
+              <div class="doc-info">
+                <div class="doc-title">{{doc.title}}</div>
+                <div class="doc-meta">
+                  <span class="doc-size">{{doc.size}}</span>
+                  <span class="doc-date">{{doc.date}}</span>
+                </div>
+              </div>
+              <button class="doc-action">📥</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Data Privacy & Cybersecurity -->
+    <section class="gov-section security-section">
+      <div class="section-header">
+        <h2>🔒 Data Privacy & Cybersecurity Controls</h2>
+        <button class="security-btn" (click)="runSecurityScan()">🔍 Scan</button>
+      </div>
+      <div class="security-grid">
+        <div class="security-card">
+          <h3>Privacy Controls</h3>
+          <div class="privacy-controls">
+            <div class="control-item" *ngFor="let control of privacyControls">
+              <div class="control-header">
+                <span class="control-title">{{control.title}}</span>
+                <span class="control-status" [class]="control.status">{{control.status}}</span>
+              </div>
+              <div class="control-progress">
+                <div class="progress-fill" [style.width.%]="control.progress"></div>
+              </div>
+              <span class="control-value">{{control.progress}}%</span>
+            </div>
+          </div>
+        </div>
+        <div class="security-card">
+          <h3>Cybersecurity Status</h3>
+          <div class="cyber-status">
+            <div class="status-item" *ngFor="let status of cyberStatus">
+              <div class="status-icon">{{status.icon}}</div>
+              <div class="status-info">
+                <div class="status-title">{{status.title}}</div>
+                <div class="status-value">{{status.value}}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Shariah Compliance Module -->
+    <section class="gov-section shariah-section">
+      <div class="section-header">
+        <h2>☪️ Shariah Compliance Module (GCC)</h2>
+        <button class="shariah-btn" (click)="runShariahAudit()">📋 Audit</button>
+      </div>
+      <div class="shariah-grid">
+        <div class="shariah-card">
+          <h3>Shariah Compliance Score</h3>
+          <div class="shariah-score">
+            <div class="score-circle">
+              <span class="score-value">95%</span>
+              <span class="score-label">Compliant</span>
+            </div>
+            <div class="score-breakdown">
+              <div class="breakdown-item">
+                <span class="breakdown-label">Financial Products</span>
+                <span class="breakdown-value">98%</span>
+              </div>
+              <div class="breakdown-item">
+                <span class="breakdown-label">Investment Criteria</span>
+                <span class="breakdown-value">92%</span>
+              </div>
+              <div class="breakdown-item">
+                <span class="breakdown-label">Ethical Standards</span>
+                <span class="breakdown-value">96%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="shariah-card">
+          <h3>Shariah Board</h3>
+          <div class="shariah-board">
+            <div class="board-member" *ngFor="let member of shariahBoard">
+              <div class="member-avatar">{{member.avatar}}</div>
+              <div class="member-info">
+                <div class="member-name">{{member.name}}</div>
+                <div class="member-role">{{member.role}}</div>
+                <div class="member-expertise">{{member.expertise}}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    </main>
+  </div>
+</div> 
