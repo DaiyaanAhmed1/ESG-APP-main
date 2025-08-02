@@ -20,7 +20,7 @@
             "browser": "src/main.ts",
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
-            "baseHref": "/",
+            "baseHref": "/ESG-APP-main/",
             "assets": [
               {
                 "glob": "**/*",
