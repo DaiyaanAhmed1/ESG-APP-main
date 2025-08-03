@@ -8,4 +8,10 @@
 [[redirects]]
   from = "/*"
   to = "/index.html"
-  status = 200 
+  status = 200
+
+# Disable Angular runtime plugin for client-side rendering
+[[plugins]]
+  package = "@netlify/angular-runtime"
+  [plugins.inputs]
+    enable_ssr = false 
